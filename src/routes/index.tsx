@@ -40,12 +40,8 @@ function Index() {
         <div
           role="img"
           aria-label="Военнослужащий принимает коробку с гуманитарной помощью, рядом грузовик, медицинские укладки и флаг ВДВ, на фоне панорама Рязани и парашюты"
-          className="hero-photo absolute inset-0 bg-no-repeat"
-          style={{
-            backgroundImage: `url(${heroAsset.url})`,
-            backgroundSize: "auto 200%",
-            backgroundPosition: "right center",
-          }}
+          className="hero-photo absolute inset-0 bg-cover bg-no-repeat bg-[position:88%_center] sm:bg-[size:auto_200%] sm:bg-[position:right_center]"
+          style={{ backgroundImage: `url(${heroAsset.url})` }}
         />
         <div className="absolute inset-0 bg-navy/25" aria-hidden />
         <div
