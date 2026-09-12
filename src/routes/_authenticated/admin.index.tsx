@@ -75,12 +75,10 @@ function AdminDashboard() {
         <h2 className="text-lg">Быстрые действия</h2>
         <div className="mt-4 flex flex-wrap gap-3">
           <Button asChild size="lg">
-            <Link to="/admin/needs" search={{ new: true }}>
-              Добавить потребность
-            </Link>
+            <Link to="/admin/needs">Добавить потребность</Link>
           </Button>
           <Button asChild size="lg" variant="outline">
-            <Link to="/admin/reports" search={{ new: true }}>
+            <Link to="/admin/reports" search={{}}>
               Добавить отчёт
             </Link>
           </Button>

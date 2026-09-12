@@ -21,6 +21,8 @@ import { Route as ReportsRouteImport } from './routes/reports'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
 import { Route as AuthenticatedAdminCategoriesRouteImport } from './routes/_authenticated/admin.categories'
+import { Route as AuthenticatedAdminNeedsRouteImport } from './routes/_authenticated/admin.needs'
+import { Route as AuthenticatedAdminRequestsRouteImport } from './routes/_authenticated/admin.requests'
 import { Route as AuthenticatedAdminSettingsRouteImport } from './routes/_authenticated/admin.settings'
 
 const IndexRoute = IndexRouteImport.update({
@@ -83,6 +85,17 @@ const AuthenticatedAdminCategoriesRoute =
     path: '/categories',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
+const AuthenticatedAdminNeedsRoute = AuthenticatedAdminNeedsRouteImport.update({
+  id: '/needs',
+  path: '/needs',
+  getParentRoute: () => AuthenticatedAdminRoute,
+} as any)
+const AuthenticatedAdminRequestsRoute =
+  AuthenticatedAdminRequestsRouteImport.update({
+    id: '/requests',
+    path: '/requests',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAdminSettingsRoute =
   AuthenticatedAdminSettingsRouteImport.update({
     id: '/settings',
@@ -101,6 +114,8 @@ export interface FileRoutesByFullPath {
   '/reports': typeof ReportsRoute
   '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/admin/categories': typeof AuthenticatedAdminCategoriesRoute
+  '/admin/needs': typeof AuthenticatedAdminNeedsRoute
+  '/admin/requests': typeof AuthenticatedAdminRequestsRoute
   '/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
 }
@@ -114,6 +129,8 @@ export interface FileRoutesByTo {
   '/privacy': typeof PrivacyRoute
   '/reports': typeof ReportsRoute
   '/admin/categories': typeof AuthenticatedAdminCategoriesRoute
+  '/admin/needs': typeof AuthenticatedAdminNeedsRoute
+  '/admin/requests': typeof AuthenticatedAdminRequestsRoute
   '/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
 }
@@ -130,6 +147,8 @@ export interface FileRoutesById {
   '/reports': typeof ReportsRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
   '/_authenticated/admin/categories': typeof AuthenticatedAdminCategoriesRoute
+  '/_authenticated/admin/needs': typeof AuthenticatedAdminNeedsRoute
+  '/_authenticated/admin/requests': typeof AuthenticatedAdminRequestsRoute
   '/_authenticated/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
 }
@@ -146,6 +165,8 @@ export interface FileRouteTypes {
     | '/reports'
     | '/admin'
     | '/admin/categories'
+    | '/admin/needs'
+    | '/admin/requests'
     | '/admin/settings'
     | '/admin/'
   fileRoutesByTo: FileRoutesByTo
@@ -159,6 +180,8 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/reports'
     | '/admin/categories'
+    | '/admin/needs'
+    | '/admin/requests'
     | '/admin/settings'
     | '/admin'
   id:
@@ -174,6 +197,8 @@ export interface FileRouteTypes {
     | '/reports'
     | '/_authenticated/admin'
     | '/_authenticated/admin/categories'
+    | '/_authenticated/admin/needs'
+    | '/_authenticated/admin/requests'
     | '/_authenticated/admin/settings'
     | '/_authenticated/admin/'
   fileRoutesById: FileRoutesById
@@ -276,6 +301,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminCategoriesRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/needs': {
+      id: '/_authenticated/admin/needs'
+      path: '/needs'
+      fullPath: '/admin/needs'
+      preLoaderRoute: typeof AuthenticatedAdminNeedsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/requests': {
+      id: '/_authenticated/admin/requests'
+      path: '/requests'
+      fullPath: '/admin/requests'
+      preLoaderRoute: typeof AuthenticatedAdminRequestsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/settings': {
       id: '/_authenticated/admin/settings'
       path: '/settings'
@@ -288,12 +327,16 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminCategoriesRoute: typeof AuthenticatedAdminCategoriesRoute
+  AuthenticatedAdminNeedsRoute: typeof AuthenticatedAdminNeedsRoute
+  AuthenticatedAdminRequestsRoute: typeof AuthenticatedAdminRequestsRoute
   AuthenticatedAdminSettingsRoute: typeof AuthenticatedAdminSettingsRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
 }
 
 const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminCategoriesRoute: AuthenticatedAdminCategoriesRoute,
+  AuthenticatedAdminNeedsRoute: AuthenticatedAdminNeedsRoute,
+  AuthenticatedAdminRequestsRoute: AuthenticatedAdminRequestsRoute,
   AuthenticatedAdminSettingsRoute: AuthenticatedAdminSettingsRoute,
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
 }
