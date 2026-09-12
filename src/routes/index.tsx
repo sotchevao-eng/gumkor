@@ -38,15 +38,16 @@ function Index() {
     <>
       <section className="relative isolate overflow-hidden">
         <img
-          src={heroImage}
-          alt="Волонтёры готовят коробки с гуманитарной помощью и медикаментами, на фоне панорама Рязани и парашюты"
-          width={1920}
-          height={1088}
-          className="hero-photo absolute inset-0 size-full object-cover"
+          src={heroAsset.url}
+          alt="Военнослужащий принимает коробку с гуманитарной помощью, рядом грузовик, медицинские укладки и флаг ВДВ, на фоне панорама Рязани и парашюты"
+          className="hero-photo absolute inset-0 size-full object-cover object-[72%_center] sm:object-[80%_center]"
         />
         <div
-          className="absolute inset-0"
-          style={{ backgroundImage: "var(--gradient-hero-veil)" }}
+          className="absolute inset-0 bg-navy/30"
+          aria-hidden
+        />
+        <div
+          className="absolute inset-0 bg-gradient-to-r from-navy/75 via-navy/25 to-transparent"
           aria-hidden
         />
         <div className="relative mx-auto max-w-6xl px-4 py-20 text-navy-foreground sm:py-28">
