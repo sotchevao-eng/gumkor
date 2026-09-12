@@ -94,6 +94,10 @@ export type Database = {
           goal_type: Database["public"]["Enums"]["need_goal_type"]
           id: string
           is_demo: boolean
+          pay_bank: string | null
+          pay_phone: string | null
+          pay_purpose: string | null
+          pay_recipient: string | null
           photo_url: string | null
           priority: Database["public"]["Enums"]["need_priority"]
           published_at: string
@@ -112,6 +116,10 @@ export type Database = {
           goal_type?: Database["public"]["Enums"]["need_goal_type"]
           id?: string
           is_demo?: boolean
+          pay_bank?: string | null
+          pay_phone?: string | null
+          pay_purpose?: string | null
+          pay_recipient?: string | null
           photo_url?: string | null
           priority?: Database["public"]["Enums"]["need_priority"]
           published_at?: string
@@ -130,6 +138,10 @@ export type Database = {
           goal_type?: Database["public"]["Enums"]["need_goal_type"]
           id?: string
           is_demo?: boolean
+          pay_bank?: string | null
+          pay_phone?: string | null
+          pay_purpose?: string | null
+          pay_recipient?: string | null
           photo_url?: string | null
           priority?: Database["public"]["Enums"]["need_priority"]
           published_at?: string
@@ -276,6 +288,7 @@ export type Database = {
     }
     Functions: {
       claim_first_admin: { Args: never; Returns: boolean }
+      has_admin_access: { Args: { _user_id: string }; Returns: boolean }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -283,6 +296,7 @@ export type Database = {
         }
         Returns: boolean
       }
+      my_admin_role: { Args: never; Returns: string }
     }
     Enums: {
       app_role: "admin" | "tester"
