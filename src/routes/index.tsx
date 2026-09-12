@@ -131,7 +131,6 @@ function Index() {
             <Link to="/contacts">Связаться с координатором</Link>
           </Button>
         </div>
-        <div className="ribbon-guard h-1 w-full opacity-90" />
       </section>
     </>
   );
