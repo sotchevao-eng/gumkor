@@ -23,18 +23,20 @@ export const Route = createFileRoute("/_authenticated/admin")({
 });
 
 const NAV = [
-  { to: "/admin", label: "Обзор", exact: true },
-  { to: "/admin/needs", label: "Потребности" },
-  { to: "/admin/requests", label: "Заявки" },
-  { to: "/admin/reports", label: "Отчёты" },
-  { to: "/admin/categories", label: "Категории" },
-  { to: "/admin/settings", label: "Настройки сайта" },
+  { to: "/admin", label: "Обзор", exact: true, adminOnly: false },
+  { to: "/admin/needs", label: "Потребности", adminOnly: false },
+  { to: "/admin/requests", label: "Заявки", adminOnly: true },
+  { to: "/admin/reports", label: "Отчёты", adminOnly: false },
+  { to: "/admin/categories", label: "Категории", adminOnly: false },
+  { to: "/admin/settings", label: "Настройки сайта", adminOnly: false },
+  { to: "/admin/access", label: "Доступы", adminOnly: true },
 ] as const;
 
 function AdminLayout() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const isAdmin = useAdminGate();
+  const role = useStaffRole();
+  const isAdmin = role === null ? null : role !== "none";
 
   const signOut = useCallback(async () => {
     await queryClient.cancelQueries();
