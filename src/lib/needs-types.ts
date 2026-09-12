@@ -19,6 +19,10 @@ export type Need = {
   photoUrl: string | null;
   reportUrl: string | null;
   isDemo: boolean;
+  payPhone: string | null;
+  payBank: string | null;
+  payRecipient: string | null;
+  payPurpose: string | null;
 };
 
 export type NeedCategory = { id: string; name: string; sortOrder: number };

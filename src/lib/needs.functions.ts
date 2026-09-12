@@ -28,7 +28,7 @@ export const listNeeds = createServerFn({ method: "GET" }).handler(
       supabase
         .from("needs")
         .select(
-          "id, title, description, category_id, published_at, priority, status, goal_type, required_amount, collected_amount, unit, photo_url, report_url, is_demo",
+          "id, title, description, category_id, published_at, priority, status, goal_type, required_amount, collected_amount, unit, photo_url, report_url, is_demo, pay_phone, pay_bank, pay_recipient, pay_purpose",
         )
         .order("published_at", { ascending: false }),
       supabase.from("need_categories").select("id, name, sort_order").order("sort_order"),
@@ -73,6 +73,10 @@ export const listNeeds = createServerFn({ method: "GET" }).handler(
       photoUrl: row.photo_url ? (signed.get(row.photo_url) ?? null) : null,
       reportUrl: row.report_url,
       isDemo: row.is_demo,
+      payPhone: row.pay_phone,
+      payBank: row.pay_bank,
+      payRecipient: row.pay_recipient,
+      payPurpose: row.pay_purpose,
     }));
 
     return { needs, categories };
