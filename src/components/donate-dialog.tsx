@@ -85,7 +85,7 @@ export function DonateDialog({ need, trigger }: { need: Need; trigger: ReactNode
               {recipient ? (
                 <p className="rounded-lg border border-sky/40 bg-sky/10 p-3 text-sm">
                   Перед переводом обязательно проверьте имя получателя в банковском приложении. Он
-                  должен отображаться как <strong>{recipient}</strong>.
+                  должен отображаться как <strong>{recipient.replace(/\.$/, "")}</strong>.
                 </p>
               ) : null}
 
