@@ -38,6 +38,16 @@ export function SiteFooter() {
               Все контакты
             </Link>
           </p>
+          <p className="mt-4 text-xs text-navy-foreground/60">
+            <Link to="/privacy" className="hover:text-navy-foreground">
+              Политика обработки персональных данных
+            </Link>
+          </p>
+          <p className="mt-1 text-xs text-navy-foreground/60">
+            <Link to="/personal-data-consent" className="hover:text-navy-foreground">
+              Согласие на обработку персональных данных
+            </Link>
+          </p>
         </div>
       </div>
       <div className="border-t border-navy-foreground/10">
