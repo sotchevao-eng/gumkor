@@ -1,7 +1,9 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
-import { FileText, Image as ImageIcon } from "lucide-react";
+import { useMemo, useState } from "react";
+import { Image as ImageIcon } from "lucide-react";
 import { PageHero } from "@/components/page-hero";
+import { Button } from "@/components/ui/button";
 import { listPublishedReports, type PublicReport } from "@/lib/reports.functions";
 import { formatDate } from "@/lib/needs-types";
 
@@ -10,7 +12,7 @@ const reportsQueryOptions = queryOptions({
   queryFn: () => listPublishedReports(),
 });
 
-export const Route = createFileRoute("/reports")({
+export const Route = createFileRoute("/reports/")({
   head: () => ({
     meta: [
       { title: "Отчётность — РяZань ZA ВДВ" },
@@ -24,6 +26,8 @@ export const Route = createFileRoute("/reports")({
         property: "og:description",
         content: "Что собрано и передано: отчёты с фотографиями и документами.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   loader: ({ context }) => context.queryClient.ensureQueryData(reportsQueryOptions),
@@ -36,62 +40,84 @@ export const Route = createFileRoute("/reports")({
       </p>
     </section>
   ),
+  notFoundComponent: () => (
+    <section className="mx-auto max-w-3xl px-4 py-16 text-center">
+      <h1 className="text-2xl">Страница не найдена</h1>
+    </section>
+  ),
 });
 
 function ReportCard({ report }: { report: PublicReport }) {
   return (
-    <article className="card-elevated p-5">
-      <div className="flex flex-wrap items-baseline justify-between gap-2">
-        <h3 className="text-lg">{report.title}</h3>
-        <time className="font-display text-sm text-muted-foreground">
-          {formatDate(report.reportDate)}
-        </time>
-      </div>
-      {report.body ? <p className="mt-2 text-sm text-muted-foreground">{report.body}</p> : null}
-      {report.summary ? <p className="mt-2 text-sm font-medium">{report.summary}</p> : null}
-      {report.needTitle ? (
-        <p className="mt-3 inline-block rounded-sm bg-success px-2 py-1 font-display text-[11px] uppercase text-success-foreground">
-          Закрыто: {report.needTitle}
-        </p>
+    <article className="card-elevated flex flex-col overflow-hidden">
+      {report.photoUrls[0] ? (
+        <img
+          src={report.photoUrls[0]}
+          alt={report.title}
+          loading="lazy"
+          className="h-44 w-full object-cover"
+        />
       ) : null}
-
-      {report.photoUrls.length > 0 && (
-        <div className="mt-4 grid grid-cols-3 gap-2">
-          {report.photoUrls.map((src) => (
-            <img
-              key={src}
-              src={src}
-              alt={report.title}
-              loading="lazy"
-              className="aspect-square w-full rounded-sm object-cover"
-            />
-          ))}
+      <div className="flex flex-1 flex-col p-5">
+        <div className="flex flex-wrap items-baseline justify-between gap-2">
+          {report.categoryName ? <p className="eyebrow">{report.categoryName}</p> : <span />}
+          <time className="font-display text-sm text-muted-foreground">
+            {formatDate(report.reportDate)}
+          </time>
         </div>
-      )}
-
-      {report.documents.length > 0 && (
-        <ul className="mt-4 space-y-2">
-          {report.documents.map((doc) => (
-            <li key={doc.url}>
-              <a
-                href={doc.url}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center gap-2 text-sm text-accent hover:underline"
-              >
-                <FileText className="size-4" />
-                {doc.name}
-              </a>
-            </li>
-          ))}
-        </ul>
-      )}
+        <h3 className="mt-1 text-lg leading-snug">
+          {report.title}
+          {report.isDemo ? (
+            <span className="ml-2 rounded-sm border border-border px-1.5 py-0.5 text-xs text-muted-foreground">
+              DEMO
+            </span>
+          ) : null}
+        </h3>
+        {report.needTitle ? (
+          <p className="mt-2 text-xs text-muted-foreground">Потребность: {report.needTitle}</p>
+        ) : null}
+        {report.summary ? <p className="mt-2 text-sm font-medium">{report.summary}</p> : null}
+        {report.body ? (
+          <p className="mt-2 line-clamp-3 text-sm text-muted-foreground">{report.body}</p>
+        ) : null}
+        <p className="mt-3 inline-block self-start rounded-sm bg-success px-2 py-1 font-display text-[11px] uppercase text-success-foreground">
+          Отчёт опубликован
+        </p>
+        <div className="mt-auto pt-5">
+          <Button asChild variant="outline" className="w-full">
+            <Link to="/reports/$reportId" params={{ reportId: report.id }}>
+              Подробнее
+            </Link>
+          </Button>
+        </div>
+      </div>
     </article>
   );
 }
 
 function ReportsPage() {
   const { data: reports } = useSuspenseQuery(reportsQueryOptions);
+  const [category, setCategory] = useState("all");
+  const [order, setOrder] = useState<"new" | "old">("new");
+
+  const categories = useMemo(
+    () =>
+      Array.from(
+        new Set(reports.map((report) => report.categoryName).filter((name): name is string => !!name)),
+      ),
+    [reports],
+  );
+
+  const visible = useMemo(() => {
+    const list = reports.filter(
+      (report) => category === "all" || report.categoryName === category,
+    );
+    return [...list].sort((a, b) =>
+      order === "new"
+        ? b.reportDate.localeCompare(a.reportDate)
+        : a.reportDate.localeCompare(b.reportDate),
+    );
+  }, [reports, category, order]);
 
   return (
     <>
@@ -103,11 +129,48 @@ function ReportsPage() {
 
       <section className="mx-auto max-w-6xl px-4 py-10">
         {reports.length > 0 ? (
-          <div className="grid gap-5 sm:grid-cols-2">
-            {reports.map((report) => (
-              <ReportCard key={report.id} report={report} />
-            ))}
-          </div>
+          <>
+            <div className="flex flex-wrap items-center gap-2">
+              <button
+                type="button"
+                onClick={() => setCategory("all")}
+                className={`rounded-md border px-3 py-1.5 font-display text-xs uppercase transition-colors ${
+                  category === "all"
+                    ? "border-navy bg-navy text-navy-foreground"
+                    : "border-border bg-card text-foreground hover:border-sky"
+                }`}
+              >
+                Все
+              </button>
+              {categories.map((name) => (
+                <button
+                  key={name}
+                  type="button"
+                  onClick={() => setCategory(name)}
+                  className={`rounded-md border px-3 py-1.5 font-display text-xs uppercase transition-colors ${
+                    category === name
+                      ? "border-navy bg-navy text-navy-foreground"
+                      : "border-border bg-card text-foreground hover:border-sky"
+                  }`}
+                >
+                  {name}
+                </button>
+              ))}
+              <button
+                type="button"
+                onClick={() => setOrder(order === "new" ? "old" : "new")}
+                className="ml-auto rounded-md bg-muted px-3 py-1.5 text-xs text-foreground"
+              >
+                {order === "new" ? "Сначала новые" : "Сначала старые"}
+              </button>
+            </div>
+
+            <div className="mt-6 grid gap-5 sm:grid-cols-2">
+              {visible.map((report) => (
+                <ReportCard key={report.id} report={report} />
+              ))}
+            </div>
+          </>
         ) : (
           <div className="card-elevated p-8">
             <h2 className="text-xl">Отчёты пока не опубликованы</h2>
