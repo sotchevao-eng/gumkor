@@ -92,6 +92,7 @@ export const listNeeds = createServerFn({ method: "GET" }).handler(
       photoPath: row.photo_url,
       photoUrl: row.photo_url ? (signed.get(row.photo_url) ?? null) : null,
       reportUrl: row.report_url,
+      reportId: reportByNeed.get(row.id) ?? null,
       isDemo: row.is_demo,
       payPhone: row.pay_phone,
       payBank: row.pay_bank,
