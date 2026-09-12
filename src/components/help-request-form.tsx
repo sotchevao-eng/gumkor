@@ -10,6 +10,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Link } from "@tanstack/react-router";
 import { toast } from "sonner";
 
 export const HELP_WAYS = [
@@ -25,6 +27,8 @@ export function HelpRequestForm({ defaultWay }: { defaultWay?: string }) {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [comment, setComment] = useState("");
+  const [consent, setConsent] = useState(false);
+  const [lastSentAt, setLastSentAt] = useState(0);
 
   function submit(e: React.FormEvent) {
     e.preventDefault();
@@ -32,6 +36,15 @@ export function HelpRequestForm({ defaultWay }: { defaultWay?: string }) {
       toast.error("Заполните имя, телефон и способ помощи");
       return;
     }
+    if (!consent) {
+      toast.error("Отметьте согласие на обработку персональных данных");
+      return;
+    }
+    if (Date.now() - lastSentAt < 15000) {
+      toast.error("Подождите немного перед повторной отправкой");
+      return;
+    }
+    setLastSentAt(Date.now());
     // Отправка пока не подключена: база данных и приём заявок добавляются отдельно.
     toast.success("Заявка подготовлена", {
       description: "Свяжитесь с координатором по телефону +7 953 733-10-20.",
@@ -40,10 +53,11 @@ export function HelpRequestForm({ defaultWay }: { defaultWay?: string }) {
     setPhone("");
     setComment("");
     setWay(defaultWay ?? "");
+    setConsent(false);
   }
 
   return (
-    <form onSubmit={submit} className="grid gap-4">
+    <form onSubmit={submit} className="grid gap-4" noValidate>
       <div className="grid gap-2">
         <Label htmlFor="name">Имя</Label>
         <Input
@@ -90,12 +104,31 @@ export function HelpRequestForm({ defaultWay }: { defaultWay?: string }) {
           rows={4}
         />
       </div>
-      <Button type="submit" size="lg">
+      <div className="flex items-start gap-3 rounded-md border border-border/70 bg-muted/40 p-3">
+        <Checkbox
+          id="consent"
+          checked={consent}
+          onCheckedChange={(v) => setConsent(v === true)}
+          className="mt-0.5"
+          required
+        />
+        <Label htmlFor="consent" className="text-sm font-normal leading-snug text-muted-foreground">
+          Я даю согласие на обработку моих персональных данных в соответствии с{" "}
+          <Link
+            to="/privacy"
+            className="underline decoration-sky/60 hover:text-foreground"
+          >
+            Политикой обработки персональных данных
+          </Link>
+          .
+        </Label>
+      </div>
+      <Button type="submit" size="lg" disabled={!consent}>
         Отправить заявку
       </Button>
       <p className="text-xs text-muted-foreground">
         Приём заявок в базу данных пока не подключён. Заявку можно передать координатору по
-        телефону.
+        телефону. Мы запрашиваем только минимально необходимые данные для обратной связи.
       </p>
     </form>
   );
