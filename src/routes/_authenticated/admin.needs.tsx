@@ -52,6 +52,10 @@ type NeedRecord = {
   photo_url: string | null;
   report_url: string | null;
   is_demo: boolean;
+  pay_phone: string | null;
+  pay_bank: string | null;
+  pay_recipient: string | null;
+  pay_purpose: string | null;
 };
 
 type FormState = {
@@ -66,6 +70,10 @@ type FormState = {
   collectedAmount: string;
   unit: string;
   reportUrl: string;
+  payPhone: string;
+  payBank: string;
+  payRecipient: string;
+  payPurpose: string;
 };
 
 const emptyForm: FormState = {
@@ -80,6 +88,10 @@ const emptyForm: FormState = {
   collectedAmount: "0",
   unit: "",
   reportUrl: "",
+  payPhone: "",
+  payBank: "",
+  payRecipient: "",
+  payPurpose: "",
 };
 
 function AdminNeeds() {
@@ -148,8 +160,13 @@ function AdminNeeds() {
         collected_amount: form.goalType === "descriptive" ? 0 : Number(form.collectedAmount || 0),
         unit: form.goalType === "descriptive" ? null : form.unit.trim() || null,
         report_url: form.reportUrl.trim() || null,
+        pay_phone: form.goalType === "money" ? form.payPhone.trim() || null : null,
+        pay_bank: form.goalType === "money" ? form.payBank.trim() || null : null,
+        pay_recipient: form.goalType === "money" ? form.payRecipient.trim() || null : null,
+        pay_purpose: form.goalType === "money" ? form.payPurpose.trim() || null : null,
         ...(photoPath !== undefined ? { photo_url: photoPath } : {}),
       };
+
 
       if (editingId) {
         const { error } = await supabase.from("needs").update(payload).eq("id", editingId);
@@ -227,6 +244,10 @@ function AdminNeeds() {
       collectedAmount: String(need.collected_amount ?? 0),
       unit: need.unit ?? "",
       reportUrl: need.report_url ?? "",
+      payPhone: need.pay_phone ?? "",
+      payBank: need.pay_bank ?? "",
+      payRecipient: need.pay_recipient ?? "",
+      payPurpose: need.pay_purpose ?? "",
     });
     setPhotoFile(null);
     setPhotoPreview(null);
@@ -552,6 +573,50 @@ function AdminNeeds() {
                 </div>
               </div>
             ) : null}
+
+            {form.goalType === "money" ? (
+              <div className="grid gap-4 rounded-lg border border-border p-4">
+                <p className="font-display text-sm uppercase">Реквизиты для перевода</p>
+                <p className="text-xs text-muted-foreground">
+                  Показываются посетителю в окне «Помочь сейчас». Только для денежных сборов.
+                </p>
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <div className="grid gap-2">
+                    <Label htmlFor="pay-phone">Номер телефона</Label>
+                    <Input
+                      id="pay-phone"
+                      value={form.payPhone}
+                      onChange={(e) => setForm({ ...form, payPhone: e.target.value })}
+                    />
+                  </div>
+                  <div className="grid gap-2">
+                    <Label htmlFor="pay-bank">Банк</Label>
+                    <Input
+                      id="pay-bank"
+                      value={form.payBank}
+                      onChange={(e) => setForm({ ...form, payBank: e.target.value })}
+                    />
+                  </div>
+                  <div className="grid gap-2">
+                    <Label htmlFor="pay-recipient">Получатель</Label>
+                    <Input
+                      id="pay-recipient"
+                      value={form.payRecipient}
+                      onChange={(e) => setForm({ ...form, payRecipient: e.target.value })}
+                    />
+                  </div>
+                  <div className="grid gap-2">
+                    <Label htmlFor="pay-purpose">Назначение платежа</Label>
+                    <Input
+                      id="pay-purpose"
+                      value={form.payPurpose}
+                      onChange={(e) => setForm({ ...form, payPurpose: e.target.value })}
+                    />
+                  </div>
+                </div>
+              </div>
+            ) : null}
+
 
             <div className="grid gap-2">
               <Label htmlFor="photo">Фото (JPG или PNG, до 10 МБ)</Label>

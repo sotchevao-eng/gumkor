@@ -1,21 +1,31 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
+export type StaffRole = "admin" | "tester" | "none";
+
+export const STAFF_ROLE_LABEL: Record<Exclude<StaffRole, "none">, string> = {
+  admin: "Координатор — полный доступ",
+  tester: "Режим разработки — Tester",
+};
+
 /**
- * Проверяет роль администратора на сервере (SECURITY DEFINER функция в базе).
+ * Проверяет роль на сервере (SECURITY DEFINER функции в базе).
  * Первый созданный аккаунт координатора получает роль администратора.
+ * Роль tester — временный доступ разработчика без доступа к заявкам.
  */
-export function useAdminGate() {
-  const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
+export function useStaffRole() {
+  const [role, setRole] = useState<StaffRole | null>(null);
 
   useEffect(() => {
     let active = true;
     void (async () => {
       try {
-        const { data } = await supabase.rpc("claim_first_admin");
-        if (active) setIsAdmin(Boolean(data));
+        await supabase.rpc("claim_first_admin");
+        const { data } = await supabase.rpc("my_admin_role");
+        if (!active) return;
+        setRole(data === "admin" || data === "tester" ? data : "none");
       } catch {
-        if (active) setIsAdmin(false);
+        if (active) setRole("none");
       }
     })();
     return () => {
@@ -23,7 +33,7 @@ export function useAdminGate() {
     };
   }, []);
 
-  return isAdmin;
+  return role;
 }
 
 /** Автоматический выход при длительном бездействии. */

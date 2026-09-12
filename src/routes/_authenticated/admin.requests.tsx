@@ -17,6 +17,7 @@ import {
   formatDateTime,
   type RequestStatus,
 } from "@/lib/admin-types";
+import { useCanSeePersonalData } from "@/lib/staff-context";
 
 export const Route = createFileRoute("/_authenticated/admin/requests")({
   component: AdminRequests,
@@ -36,10 +37,12 @@ type RequestRecord = {
 
 function AdminRequests() {
   const queryClient = useQueryClient();
+  const canSeePersonalData = useCanSeePersonalData();
   const [filter, setFilter] = useState<"all" | RequestStatus>("all");
 
   const requestsQuery = useQuery({
     queryKey: ["help-requests"],
+    enabled: canSeePersonalData,
     queryFn: async () => {
       const { data, error } = await supabase
         .from("help_requests")
@@ -91,6 +94,19 @@ function AdminRequests() {
   const requests = (requestsQuery.data ?? []).filter(
     (request) => filter === "all" || request.status === filter,
   );
+
+  if (!canSeePersonalData) {
+    return (
+      <div className="card-elevated p-6">
+        <h1 className="text-2xl">Заявки</h1>
+        <p className="mt-2 text-sm text-muted-foreground">
+          Заявки содержат персональные данные и доступны только координатору. Тестовому доступу
+          этот раздел закрыт.
+        </p>
+      </div>
+    );
+  }
+
 
   return (
     <div className="grid gap-6">
