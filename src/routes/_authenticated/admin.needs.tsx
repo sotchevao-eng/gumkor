@@ -52,6 +52,10 @@ type NeedRecord = {
   photo_url: string | null;
   report_url: string | null;
   is_demo: boolean;
+  pay_phone: string | null;
+  pay_bank: string | null;
+  pay_recipient: string | null;
+  pay_purpose: string | null;
 };
 
 type FormState = {
@@ -66,6 +70,10 @@ type FormState = {
   collectedAmount: string;
   unit: string;
   reportUrl: string;
+  payPhone: string;
+  payBank: string;
+  payRecipient: string;
+  payPurpose: string;
 };
 
 const emptyForm: FormState = {
@@ -80,6 +88,10 @@ const emptyForm: FormState = {
   collectedAmount: "0",
   unit: "",
   reportUrl: "",
+  payPhone: "",
+  payBank: "",
+  payRecipient: "",
+  payPurpose: "",
 };
 
 function AdminNeeds() {
