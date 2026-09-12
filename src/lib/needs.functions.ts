@@ -30,6 +30,7 @@ export const listNeeds = createServerFn({ method: "GET" }).handler(
         .select(
           "id, title, description, category_id, published_at, priority, status, goal_type, required_amount, collected_amount, unit, photo_url, report_url, is_demo, pay_phone, pay_bank, pay_recipient, pay_purpose",
         )
+        .neq("status", "draft")
         .order("published_at", { ascending: false }),
       supabase.from("need_categories").select("id, name, sort_order").order("sort_order"),
     ]);

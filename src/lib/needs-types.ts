@@ -1,4 +1,4 @@
-export type NeedStatus = "active" | "partial" | "closed";
+export type NeedStatus = "draft" | "active" | "partial" | "closed";
 export type NeedPriority = "normal" | "important" | "urgent";
 export type NeedGoalType = "quantity" | "money" | "descriptive";
 
@@ -28,6 +28,7 @@ export type Need = {
 export type NeedCategory = { id: string; name: string; sortOrder: number };
 
 export const STATUS_META: Record<NeedStatus, { label: string; className: string }> = {
+  draft: { label: "Черновик", className: "bg-muted text-muted-foreground" },
   active: { label: "Активно", className: "bg-sky text-sky-foreground" },
   partial: { label: "Частично закрыто", className: "bg-warning text-warning-foreground" },
   closed: { label: "Закрыто", className: "bg-success text-success-foreground" },
