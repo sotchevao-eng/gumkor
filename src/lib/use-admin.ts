@@ -10,14 +10,14 @@ export function useAdminGate() {
 
   useEffect(() => {
     let active = true;
-    supabase
-      .rpc("claim_first_admin")
-      .then(({ data }) => {
+    void (async () => {
+      try {
+        const { data } = await supabase.rpc("claim_first_admin");
         if (active) setIsAdmin(Boolean(data));
-      })
-      .catch(() => {
+      } catch {
         if (active) setIsAdmin(false);
-      });
+      }
+    })();
     return () => {
       active = false;
     };
