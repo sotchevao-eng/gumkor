@@ -17,8 +17,9 @@ import { Route as HelpRouteImport } from './routes/help'
 import { Route as NeedsRouteImport } from './routes/needs'
 import { Route as PersonalDataConsentRouteImport } from './routes/personal-data-consent'
 import { Route as PrivacyRouteImport } from './routes/privacy'
-import { Route as ReportsRouteImport } from './routes/reports'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
+import { Route as ReportsIndexRouteImport } from './routes/reports.index'
+import { Route as ReportsReportIdRouteImport } from './routes/reports.$reportId'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
 import { Route as AuthenticatedAdminAccessRouteImport } from './routes/_authenticated/admin.access'
 import { Route as AuthenticatedAdminCategoriesRouteImport } from './routes/_authenticated/admin.categories'
@@ -66,15 +67,20 @@ const PrivacyRoute = PrivacyRouteImport.update({
   path: '/privacy',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ReportsRoute = ReportsRouteImport.update({
-  id: '/reports',
-  path: '/reports',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
   id: '/admin',
   path: '/admin',
   getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const ReportsIndexRoute = ReportsIndexRouteImport.update({
+  id: '/reports/',
+  path: '/reports/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReportsReportIdRoute = ReportsReportIdRouteImport.update({
+  id: '/reports/$reportId',
+  path: '/reports/$reportId',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
   id: '/',
@@ -125,8 +131,9 @@ export interface FileRoutesByFullPath {
   '/needs': typeof NeedsRoute
   '/personal-data-consent': typeof PersonalDataConsentRoute
   '/privacy': typeof PrivacyRoute
-  '/reports': typeof ReportsRoute
   '/admin': typeof AuthenticatedAdminRouteWithChildren
+  '/reports/$reportId': typeof ReportsReportIdRoute
+  '/reports/': typeof ReportsIndexRoute
   '/admin/access': typeof AuthenticatedAdminAccessRoute
   '/admin/categories': typeof AuthenticatedAdminCategoriesRoute
   '/admin/needs': typeof AuthenticatedAdminNeedsRoute
@@ -143,7 +150,8 @@ export interface FileRoutesByTo {
   '/needs': typeof NeedsRoute
   '/personal-data-consent': typeof PersonalDataConsentRoute
   '/privacy': typeof PrivacyRoute
-  '/reports': typeof ReportsRoute
+  '/reports/$reportId': typeof ReportsReportIdRoute
+  '/reports': typeof ReportsIndexRoute
   '/admin/access': typeof AuthenticatedAdminAccessRoute
   '/admin/categories': typeof AuthenticatedAdminCategoriesRoute
   '/admin/needs': typeof AuthenticatedAdminNeedsRoute
@@ -162,8 +170,9 @@ export interface FileRoutesById {
   '/needs': typeof NeedsRoute
   '/personal-data-consent': typeof PersonalDataConsentRoute
   '/privacy': typeof PrivacyRoute
-  '/reports': typeof ReportsRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
+  '/reports/$reportId': typeof ReportsReportIdRoute
+  '/reports/': typeof ReportsIndexRoute
   '/_authenticated/admin/access': typeof AuthenticatedAdminAccessRoute
   '/_authenticated/admin/categories': typeof AuthenticatedAdminCategoriesRoute
   '/_authenticated/admin/needs': typeof AuthenticatedAdminNeedsRoute
@@ -182,8 +191,9 @@ export interface FileRouteTypes {
     | '/needs'
     | '/personal-data-consent'
     | '/privacy'
-    | '/reports'
     | '/admin'
+    | '/reports/$reportId'
+    | '/reports/'
     | '/admin/access'
     | '/admin/categories'
     | '/admin/needs'
@@ -200,6 +210,7 @@ export interface FileRouteTypes {
     | '/needs'
     | '/personal-data-consent'
     | '/privacy'
+    | '/reports/$reportId'
     | '/reports'
     | '/admin/access'
     | '/admin/categories'
@@ -218,8 +229,9 @@ export interface FileRouteTypes {
     | '/needs'
     | '/personal-data-consent'
     | '/privacy'
-    | '/reports'
     | '/_authenticated/admin'
+    | '/reports/$reportId'
+    | '/reports/'
     | '/_authenticated/admin/access'
     | '/_authenticated/admin/categories'
     | '/_authenticated/admin/needs'
@@ -238,7 +250,8 @@ export interface RootRouteChildren {
   NeedsRoute: typeof NeedsRoute
   PersonalDataConsentRoute: typeof PersonalDataConsentRoute
   PrivacyRoute: typeof PrivacyRoute
-  ReportsRoute: typeof ReportsRoute
+  ReportsReportIdRoute: typeof ReportsReportIdRoute
+  ReportsIndexRoute: typeof ReportsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -299,19 +312,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PrivacyRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/reports': {
-      id: '/reports'
-      path: '/reports'
-      fullPath: '/reports'
-      preLoaderRoute: typeof ReportsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/_authenticated/admin': {
       id: '/_authenticated/admin'
       path: '/admin'
       fullPath: '/admin'
       preLoaderRoute: typeof AuthenticatedAdminRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/reports/': {
+      id: '/reports/'
+      path: '/reports'
+      fullPath: '/reports/'
+      preLoaderRoute: typeof ReportsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reports/$reportId': {
+      id: '/reports/$reportId'
+      path: '/reports/$reportId'
+      fullPath: '/reports/$reportId'
+      preLoaderRoute: typeof ReportsReportIdRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/_authenticated/admin/': {
       id: '/_authenticated/admin/'
@@ -408,7 +428,8 @@ const rootRouteChildren: RootRouteChildren = {
   NeedsRoute: NeedsRoute,
   PersonalDataConsentRoute: PersonalDataConsentRoute,
   PrivacyRoute: PrivacyRoute,
-  ReportsRoute: ReportsRoute,
+  ReportsReportIdRoute: ReportsReportIdRoute,
+  ReportsIndexRoute: ReportsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

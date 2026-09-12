@@ -201,46 +201,79 @@ export type Database = {
         Row: {
           body: string
           category_id: string | null
+          collected_amount: number | null
+          coordinator_note: string
           created_at: string
+          delivered_amount: number | null
+          document_names: string[]
           document_paths: string[]
           id: string
           is_demo: boolean
+          need_goal_type: string
           need_id: string | null
+          need_title: string
           photo_paths: string[]
+          public_document_paths: string[]
+          purchased_items: string
           report_date: string
+          spent_amount: number | null
           status: Database["public"]["Enums"]["report_status"]
           summary: string
+          target_amount: number | null
           title: string
+          unit: string | null
           updated_at: string
         }
         Insert: {
           body?: string
           category_id?: string | null
+          collected_amount?: number | null
+          coordinator_note?: string
           created_at?: string
+          delivered_amount?: number | null
+          document_names?: string[]
           document_paths?: string[]
           id?: string
           is_demo?: boolean
+          need_goal_type?: string
           need_id?: string | null
+          need_title?: string
           photo_paths?: string[]
+          public_document_paths?: string[]
+          purchased_items?: string
           report_date?: string
+          spent_amount?: number | null
           status?: Database["public"]["Enums"]["report_status"]
           summary?: string
+          target_amount?: number | null
           title: string
+          unit?: string | null
           updated_at?: string
         }
         Update: {
           body?: string
           category_id?: string | null
+          collected_amount?: number | null
+          coordinator_note?: string
           created_at?: string
+          delivered_amount?: number | null
+          document_names?: string[]
           document_paths?: string[]
           id?: string
           is_demo?: boolean
+          need_goal_type?: string
           need_id?: string | null
+          need_title?: string
           photo_paths?: string[]
+          public_document_paths?: string[]
+          purchased_items?: string
           report_date?: string
+          spent_amount?: number | null
           status?: Database["public"]["Enums"]["report_status"]
           summary?: string
+          target_amount?: number | null
           title?: string
+          unit?: string | null
           updated_at?: string
         }
         Relationships: [

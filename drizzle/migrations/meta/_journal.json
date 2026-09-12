@@ -71,6 +71,13 @@
       "when": 1789233182858,
       "tag": "0009_needs_draft_and_history",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1789233431226,
+      "tag": "0010_reports_details",
+      "breakpoints": true
     }
   ]
 }
