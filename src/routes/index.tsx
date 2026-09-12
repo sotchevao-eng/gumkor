@@ -43,7 +43,7 @@ function Index() {
           className="hero-photo absolute inset-0 bg-no-repeat"
           style={{
             backgroundImage: `url(${heroAsset.url})`,
-            backgroundSize: "auto 175%",
+            backgroundSize: "auto 200%",
             backgroundPosition: "right center",
           }}
         />
