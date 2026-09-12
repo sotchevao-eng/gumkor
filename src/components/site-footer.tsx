@@ -6,7 +6,13 @@ export function SiteFooter() {
       <div className="ribbon-guard h-1 w-full opacity-90" />
       <div className="mx-auto grid max-w-6xl gap-6 px-4 py-10 sm:grid-cols-2">
         <div>
-          <p className="font-display text-lg uppercase">РяZань ZA ВДВ</p>
+          <p className="brand-title text-lg leading-tight">
+            <span className="text-navy-foreground">Ря</span>
+            <span className="brand-z">Z</span>
+            <span className="text-navy-foreground">ань </span>
+            <span className="brand-za">ZA</span>
+            <span className="text-navy-foreground"> ВДВ</span>
+          </p>
           <p className="mt-1 text-sm text-navy-foreground/70">
             Помощь 2 батальону 137 гв. ПДП. Своих не бросаем.
           </p>
@@ -39,16 +45,15 @@ export function SiteFooter() {
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-2 px-4 py-4 text-xs text-navy-foreground/60 sm:flex-row">
           <span>
             Разработка сайта —{" "}
-            <span className="font-semibold text-navy-foreground">OXANA PROJECTS</span>
+            <a
+              href="https://oxanaprojects.ru/"
+              target="_blank"
+              rel="noreferrer"
+              className="font-semibold text-navy-foreground underline decoration-sky/60 hover:decoration-navy-foreground"
+            >
+              OXANA PROJECTS
+            </a>
           </span>
-          <a
-            href="https://oxanaprojects.ru/"
-            target="_blank"
-            rel="noreferrer"
-            className="underline decoration-sky/60 hover:text-navy-foreground"
-          >
-            Портфолио: oxanaprojects.ru
-          </a>
         </div>
       </div>
     </footer>
