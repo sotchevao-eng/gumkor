@@ -26,7 +26,7 @@ export function HelpRequestDialog({
             Оставьте контакты — координатор свяжется и подскажет, что нужно прямо сейчас.
           </DialogDescription>
         </DialogHeader>
-        <HelpRequestForm defaultWay={defaultWay} />
+        {defaultWay ? <HelpRequestForm defaultWay={defaultWay} /> : <HelpRequestForm />}
       </DialogContent>
     </Dialog>
   );
