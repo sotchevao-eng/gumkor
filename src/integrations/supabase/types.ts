@@ -14,22 +14,72 @@ export type Database = {
   }
   public: {
     Tables: {
+      help_requests: {
+        Row: {
+          comment: string
+          contact: string
+          created_at: string
+          help_way: string
+          id: string
+          is_demo: boolean
+          name: string
+          need_id: string | null
+          status: Database["public"]["Enums"]["request_status"]
+          updated_at: string
+        }
+        Insert: {
+          comment?: string
+          contact: string
+          created_at?: string
+          help_way?: string
+          id?: string
+          is_demo?: boolean
+          name: string
+          need_id?: string | null
+          status?: Database["public"]["Enums"]["request_status"]
+          updated_at?: string
+        }
+        Update: {
+          comment?: string
+          contact?: string
+          created_at?: string
+          help_way?: string
+          id?: string
+          is_demo?: boolean
+          name?: string
+          need_id?: string | null
+          status?: Database["public"]["Enums"]["request_status"]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "help_requests_need_id_fkey"
+            columns: ["need_id"]
+            isOneToOne: false
+            referencedRelation: "needs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       need_categories: {
         Row: {
           created_at: string
           id: string
+          is_hidden: boolean
           name: string
           sort_order: number
         }
         Insert: {
           created_at?: string
           id?: string
+          is_hidden?: boolean
           name: string
           sort_order?: number
         }
         Update: {
           created_at?: string
           id?: string
+          is_hidden?: boolean
           name?: string
           sort_order?: number
         }
@@ -100,6 +150,105 @@ export type Database = {
           },
         ]
       }
+      reports: {
+        Row: {
+          body: string
+          category_id: string | null
+          created_at: string
+          document_paths: string[]
+          id: string
+          is_demo: boolean
+          need_id: string | null
+          photo_paths: string[]
+          report_date: string
+          status: Database["public"]["Enums"]["report_status"]
+          summary: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          body?: string
+          category_id?: string | null
+          created_at?: string
+          document_paths?: string[]
+          id?: string
+          is_demo?: boolean
+          need_id?: string | null
+          photo_paths?: string[]
+          report_date?: string
+          status?: Database["public"]["Enums"]["report_status"]
+          summary?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          body?: string
+          category_id?: string | null
+          created_at?: string
+          document_paths?: string[]
+          id?: string
+          is_demo?: boolean
+          need_id?: string | null
+          photo_paths?: string[]
+          report_date?: string
+          status?: Database["public"]["Enums"]["report_status"]
+          summary?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reports_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "need_categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reports_need_id_fkey"
+            columns: ["need_id"]
+            isOneToOne: false
+            referencedRelation: "needs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      site_settings: {
+        Row: {
+          coordinator_name: string
+          donation_details: string
+          email: string
+          footer_text: string
+          id: boolean
+          max_contact: string
+          phone: string
+          updated_at: string
+          vk_url: string
+        }
+        Insert: {
+          coordinator_name?: string
+          donation_details?: string
+          email?: string
+          footer_text?: string
+          id?: boolean
+          max_contact?: string
+          phone?: string
+          updated_at?: string
+          vk_url?: string
+        }
+        Update: {
+          coordinator_name?: string
+          donation_details?: string
+          email?: string
+          footer_text?: string
+          id?: boolean
+          max_contact?: string
+          phone?: string
+          updated_at?: string
+          vk_url?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -140,6 +289,14 @@ export type Database = {
       need_goal_type: "quantity" | "money" | "descriptive"
       need_priority: "normal" | "important" | "urgent"
       need_status: "active" | "partial" | "closed"
+      report_status: "draft" | "published"
+      request_status:
+        | "new"
+        | "in_progress"
+        | "contacted"
+        | "agreed"
+        | "done"
+        | "rejected"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -271,6 +428,15 @@ export const Constants = {
       need_goal_type: ["quantity", "money", "descriptive"],
       need_priority: ["normal", "important", "urgent"],
       need_status: ["active", "partial", "closed"],
+      report_status: ["draft", "published"],
+      request_status: [
+        "new",
+        "in_progress",
+        "contacted",
+        "agreed",
+        "done",
+        "rejected",
+      ],
     },
   },
 } as const
