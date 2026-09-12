@@ -40,14 +40,16 @@ function AdminRequests() {
   const canSeePersonalData = useCanSeePersonalData();
   const [filter, setFilter] = useState<"all" | RequestStatus>("all");
 
+  // Tester видит только demo-заявки: реальные персональные данные закрыты политикой в базе.
   const requestsQuery = useQuery({
-    queryKey: ["help-requests"],
-    enabled: canSeePersonalData,
+    queryKey: ["help-requests", canSeePersonalData ? "all" : "demo"],
     queryFn: async () => {
-      const { data, error } = await supabase
+      let query = supabase
         .from("help_requests")
         .select("id, name, contact, help_way, need_id, comment, status, is_demo, created_at")
         .order("created_at", { ascending: false });
+      if (!canSeePersonalData) query = query.eq("is_demo", true);
+      const { data, error } = await query;
       if (error) throw new Error(error.message);
       return (data ?? []) as RequestRecord[];
     },
@@ -95,26 +97,14 @@ function AdminRequests() {
     (request) => filter === "all" || request.status === filter,
   );
 
-  if (!canSeePersonalData) {
-    return (
-      <div className="card-elevated p-6">
-        <h1 className="text-2xl">Заявки</h1>
-        <p className="mt-2 text-sm text-muted-foreground">
-          Заявки содержат персональные данные и доступны только координатору. Тестовому доступу
-          этот раздел закрыт.
-        </p>
-      </div>
-    );
-  }
-
-
   return (
     <div className="grid gap-6">
       <div>
         <h1 className="text-2xl">Заявки</h1>
         <p className="mt-1 text-sm text-muted-foreground">
-          Заявки содержат персональные данные и видны только координатору. В публичной части сайта
-          они не отображаются.
+          {canSeePersonalData
+            ? "Заявки содержат персональные данные и видны только координатору. В публичной части сайта они не отображаются."
+            : "Тестовый режим: показываются только demo-заявки. Реальные заявки, телефоны и комментарии людей тестовому доступу закрыты."}
         </p>
       </div>
 
