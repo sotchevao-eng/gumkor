@@ -50,6 +50,13 @@
       "when": 1789231766777,
       "tag": "0006_tester_access_and_need_payment_details",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1789231808058,
+      "tag": "0007_tester_manage_reports",
+      "breakpoints": true
     }
   ]
 }
