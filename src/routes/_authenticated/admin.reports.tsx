@@ -27,9 +27,8 @@ import { formatDate } from "@/lib/needs-types";
 import { signedUrls, uploadDocument, uploadImage } from "@/lib/admin-upload";
 
 export const Route = createFileRoute("/_authenticated/admin/reports")({
-  validateSearch: (search: Record<string, unknown>): { needId?: string } => ({
-    needId: typeof search["needId"] === "string" ? search["needId"] : undefined,
-  }),
+  validateSearch: (search: Record<string, unknown>): { needId?: string } =>
+    typeof search["needId"] === "string" ? { needId: search["needId"] } : {},
   component: AdminReports,
 });
 
