@@ -15,6 +15,13 @@
       "when": 1789230856091,
       "tag": "0001_need_photos_storage_policies",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1789230886865,
+      "tag": "0002_claim_first_admin",
+      "breakpoints": true
     }
   ]
 }
