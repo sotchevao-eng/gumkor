@@ -19,6 +19,7 @@ import { Route as PersonalDataConsentRouteImport } from './routes/personal-data-
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as ReportsIndexRouteImport } from './routes/reports.index'
+import { Route as ReportsReportIdRouteImport } from './routes/reports.$reportId'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
 import { Route as AuthenticatedAdminAccessRouteImport } from './routes/_authenticated/admin.access'
 import { Route as AuthenticatedAdminCategoriesRouteImport } from './routes/_authenticated/admin.categories'
@@ -76,6 +77,11 @@ const ReportsIndexRoute = ReportsIndexRouteImport.update({
   path: '/reports/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ReportsReportIdRoute = ReportsReportIdRouteImport.update({
+  id: '/reports/$reportId',
+  path: '/reports/$reportId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -126,6 +132,7 @@ export interface FileRoutesByFullPath {
   '/personal-data-consent': typeof PersonalDataConsentRoute
   '/privacy': typeof PrivacyRoute
   '/admin': typeof AuthenticatedAdminRouteWithChildren
+  '/reports/$reportId': typeof ReportsReportIdRoute
   '/reports/': typeof ReportsIndexRoute
   '/admin/access': typeof AuthenticatedAdminAccessRoute
   '/admin/categories': typeof AuthenticatedAdminCategoriesRoute
@@ -143,6 +150,7 @@ export interface FileRoutesByTo {
   '/needs': typeof NeedsRoute
   '/personal-data-consent': typeof PersonalDataConsentRoute
   '/privacy': typeof PrivacyRoute
+  '/reports/$reportId': typeof ReportsReportIdRoute
   '/reports': typeof ReportsIndexRoute
   '/admin/access': typeof AuthenticatedAdminAccessRoute
   '/admin/categories': typeof AuthenticatedAdminCategoriesRoute
@@ -163,6 +171,7 @@ export interface FileRoutesById {
   '/personal-data-consent': typeof PersonalDataConsentRoute
   '/privacy': typeof PrivacyRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
+  '/reports/$reportId': typeof ReportsReportIdRoute
   '/reports/': typeof ReportsIndexRoute
   '/_authenticated/admin/access': typeof AuthenticatedAdminAccessRoute
   '/_authenticated/admin/categories': typeof AuthenticatedAdminCategoriesRoute
@@ -183,6 +192,7 @@ export interface FileRouteTypes {
     | '/personal-data-consent'
     | '/privacy'
     | '/admin'
+    | '/reports/$reportId'
     | '/reports/'
     | '/admin/access'
     | '/admin/categories'
@@ -200,6 +210,7 @@ export interface FileRouteTypes {
     | '/needs'
     | '/personal-data-consent'
     | '/privacy'
+    | '/reports/$reportId'
     | '/reports'
     | '/admin/access'
     | '/admin/categories'
@@ -219,6 +230,7 @@ export interface FileRouteTypes {
     | '/personal-data-consent'
     | '/privacy'
     | '/_authenticated/admin'
+    | '/reports/$reportId'
     | '/reports/'
     | '/_authenticated/admin/access'
     | '/_authenticated/admin/categories'
@@ -238,6 +250,7 @@ export interface RootRouteChildren {
   NeedsRoute: typeof NeedsRoute
   PersonalDataConsentRoute: typeof PersonalDataConsentRoute
   PrivacyRoute: typeof PrivacyRoute
+  ReportsReportIdRoute: typeof ReportsReportIdRoute
   ReportsIndexRoute: typeof ReportsIndexRoute
 }
 
@@ -311,6 +324,13 @@ declare module '@tanstack/react-router' {
       path: '/reports'
       fullPath: '/reports/'
       preLoaderRoute: typeof ReportsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reports/$reportId': {
+      id: '/reports/$reportId'
+      path: '/reports/$reportId'
+      fullPath: '/reports/$reportId'
+      preLoaderRoute: typeof ReportsReportIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/admin/': {
@@ -408,6 +428,7 @@ const rootRouteChildren: RootRouteChildren = {
   NeedsRoute: NeedsRoute,
   PersonalDataConsentRoute: PersonalDataConsentRoute,
   PrivacyRoute: PrivacyRoute,
+  ReportsReportIdRoute: ReportsReportIdRoute,
   ReportsIndexRoute: ReportsIndexRoute,
 }
 export const routeTree = rootRouteImport
