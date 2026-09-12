@@ -63,6 +63,10 @@ export function SiteFooter() {
               OXANA PROJECTS
             </a>
           </span>
+          <Link to="/auth" className="hover:text-navy-foreground">
+            Вход для координатора
+          </Link>
+
         </div>
       </div>
     </footer>
