@@ -193,10 +193,10 @@
 }
 
 @utility brand-z {
-  color: var(--color-sky);
+  color: var(--color-guard);
   font-size: 1.2em;
   line-height: 1;
-  text-shadow: 0 0 12px oklch(0.62 0.16 245 / 0.55);
+  text-shadow: 0 0 12px oklch(0.66 0.17 48 / 0.5);
 }
 
 @utility brand-za {
