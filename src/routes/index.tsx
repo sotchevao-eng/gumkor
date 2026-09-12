@@ -50,7 +50,9 @@ function Index() {
           aria-hidden
         />
         <div className="relative mx-auto max-w-6xl px-4 py-20 text-navy-foreground sm:py-28">
-          <p className="eyebrow drop-shadow">Волонтёрская группа · Рязань</p>
+          <p className="eyebrow !text-navy-foreground drop-shadow-md">
+            Волонтёрская группа · Рязань
+          </p>
           <h1 className="mt-4 max-w-3xl text-5xl leading-[1.02] uppercase drop-shadow-lg sm:text-7xl">
             Своих не бросаем
           </h1>
