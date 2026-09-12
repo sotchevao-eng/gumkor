@@ -31,12 +31,32 @@ function Index() {
         <img
           src={heroAsset.url}
           alt="Военнослужащий, коробки гуманитарной помощи, грузовик «РяZань ZA ВДВ», парашюты и панорама Рязани с надписью «Своих не бросаем»"
-          className="h-[42vw] max-h-[520px] min-h-[220px] w-full object-cover object-[60%_center] sm:object-center"
+          className="h-[30vw] max-h-[380px] min-h-[190px] w-full object-cover object-[60%_center] sm:object-center"
         />
         <div className="ribbon-guard absolute bottom-0 h-1.5 w-full opacity-95" />
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 py-12 sm:py-16">
+      <section className="surface-navy">
+        <div className="mx-auto flex max-w-6xl flex-col items-start gap-3 px-4 py-5 sm:flex-row sm:items-center sm:justify-between">
+          <p className="max-w-xl text-sm text-navy-foreground/85">
+            Собираем гуманитарную помощь по актуальным запросам, передаём и публикуем отчёты.
+          </p>
+          <div className="flex flex-wrap gap-3">
+            <Button asChild size="lg" variant="secondary">
+              <Link to="/needs">Смотреть потребности</Link>
+            </Button>
+            <HelpRequestDialog
+              trigger={
+                <Button size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90">
+                  Помочь сейчас
+                </Button>
+              }
+            />
+          </div>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-6xl px-4 py-8 sm:py-10">
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {[
             {
