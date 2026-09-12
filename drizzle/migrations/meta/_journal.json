@@ -57,6 +57,13 @@
       "when": 1789231808058,
       "tag": "0007_tester_manage_reports",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1789232909436,
+      "tag": "0008_tester_demo_requests_read",
+      "breakpoints": true
     }
   ]
 }

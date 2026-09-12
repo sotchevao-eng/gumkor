@@ -56,7 +56,12 @@ export function DonateDialog({ need, trigger }: { need: Need; trigger: ReactNode
 
           {showForm ? (
             <div className="px-5 pb-5">
-              <HelpRequestForm defaultWay="Финансово" />
+              <HelpRequestForm
+                defaultWay="Финансово"
+                needId={need.id}
+                needTitle={need.title}
+                lockWay
+              />
             </div>
           ) : (
             <div className="grid gap-4 px-5 pb-5">

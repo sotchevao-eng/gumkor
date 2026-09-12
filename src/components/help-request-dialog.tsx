@@ -12,9 +12,15 @@ import { HelpRequestForm } from "./help-request-form";
 export function HelpRequestDialog({
   trigger,
   defaultWay,
+  needId,
+  needTitle,
+  lockWay,
 }: {
   trigger: ReactNode;
   defaultWay?: string;
+  needId?: string;
+  needTitle?: string;
+  lockWay?: boolean;
 }) {
   return (
     <Dialog>
@@ -26,7 +32,12 @@ export function HelpRequestDialog({
             Оставьте контакты — координатор свяжется и подскажет, что нужно прямо сейчас.
           </DialogDescription>
         </DialogHeader>
-        {defaultWay ? <HelpRequestForm defaultWay={defaultWay} /> : <HelpRequestForm />}
+        <HelpRequestForm
+          {...(defaultWay ? { defaultWay } : {})}
+          {...(needId ? { needId } : {})}
+          {...(needTitle ? { needTitle } : {})}
+          {...(lockWay ? { lockWay } : {})}
+        />
       </DialogContent>
     </Dialog>
   );

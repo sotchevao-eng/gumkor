@@ -47,7 +47,7 @@ export function NeedCard({ need }: { need: Need }) {
           <span className="text-muted-foreground">от {formatDate(need.publishedAt)}</span>
           {need.isDemo ? (
             <span className="rounded-sm border border-border px-1.5 py-0.5 text-muted-foreground">
-              demo
+              DEMO
             </span>
           ) : null}
         </div>
@@ -103,12 +103,16 @@ export function NeedCard({ need }: { need: Need }) {
                   </Button>
                 }
                 defaultWay="Финансово"
+                needId={need.id}
+                needTitle={need.title}
               />
             </div>
           ) : (
             <HelpRequestDialog
               trigger={<Button className="w-full">Могу помочь</Button>}
               defaultWay="Вещами и материалами"
+              needId={need.id}
+              needTitle={need.title}
             />
           )}
         </div>
