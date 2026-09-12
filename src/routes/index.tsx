@@ -36,8 +36,8 @@ function Index() {
         <div className="ribbon-guard absolute bottom-0 h-1.5 w-full opacity-95" />
       </section>
 
-      <section className="surface-navy">
-        <div className="mx-auto flex max-w-6xl flex-col items-start gap-3 px-4 py-5 sm:flex-row sm:items-center sm:justify-between">
+      <section className="bg-navy/92">
+        <div className="mx-auto flex max-w-6xl flex-col items-start gap-3 px-4 py-3.5 sm:flex-row sm:items-center sm:justify-between">
           <p className="max-w-xl text-sm text-navy-foreground/85">
             Собираем гуманитарную помощь по актуальным запросам, передаём и публикуем отчёты.
           </p>
@@ -56,7 +56,7 @@ function Index() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 py-8 sm:py-10">
+      <section className="mx-auto max-w-6xl px-4 pt-6 pb-8 sm:pt-7">
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {[
             {
@@ -117,7 +117,7 @@ function Index() {
       </section>
 
       <section className="surface-navy">
-        <div className="mx-auto flex max-w-6xl flex-col gap-4 px-4 py-8 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mx-auto flex max-w-6xl flex-col gap-4 px-4 py-6 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p className="eyebrow">Наша задача</p>
             <h2 className="mt-1 text-2xl uppercase sm:text-3xl">
