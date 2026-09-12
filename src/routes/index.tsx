@@ -9,7 +9,7 @@ import {
   Sparkles,
   Truck,
 } from "lucide-react";
-import heroImage from "@/assets/hero-aid.jpg";
+import heroAsset from "@/assets/hero-humanitarian.png.asset.json";
 import { Button } from "@/components/ui/button";
 import { HelpRequestDialog } from "@/components/help-request-dialog";
 
