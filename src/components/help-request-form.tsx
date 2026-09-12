@@ -22,7 +22,19 @@ export const HELP_WAYS = [
   "Информационно",
 ] as const;
 
-export function HelpRequestForm({ defaultWay }: { defaultWay?: string }) {
+export function HelpRequestForm({
+  defaultWay,
+  needId,
+  needTitle,
+  lockWay = false,
+}: {
+  defaultWay?: string;
+  /** Служебное поле: заявка привязана к конкретной потребности. */
+  needId?: string;
+  needTitle?: string;
+  /** Способ помощи зафиксирован (например, после перевода средств). */
+  lockWay?: boolean;
+}) {
   const [way, setWay] = useState(defaultWay ?? "");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -45,9 +57,21 @@ export function HelpRequestForm({ defaultWay }: { defaultWay?: string }) {
       return;
     }
     setLastSentAt(Date.now());
-    // Отправка пока не подключена: база данных и приём заявок добавляются отдельно.
+    // Служебные поля привязки заявки к потребности: need_id и need_title.
+    const payload = {
+      name: name.trim(),
+      contact: phone.trim(),
+      help_way: way,
+      comment: comment.trim(),
+      need_id: needId ?? null,
+      need_title: needTitle ?? null,
+    };
+    void payload;
+    // Отправка пока не подключена: приём заявок в базу добавляется отдельно.
     toast.success("Заявка подготовлена", {
-      description: "Свяжитесь с координатором по телефону +7 953 733-10-20.",
+      description: needTitle
+        ? `Потребность: ${needTitle}. Свяжитесь с координатором по телефону +7 953 733-10-20.`
+        : "Свяжитесь с координатором по телефону +7 953 733-10-20.",
     });
     setName("");
     setPhone("");
@@ -58,6 +82,16 @@ export function HelpRequestForm({ defaultWay }: { defaultWay?: string }) {
 
   return (
     <form onSubmit={submit} className="grid gap-4" noValidate>
+      {needTitle ? (
+        <div className="rounded-md border border-sky/40 bg-sky/10 p-3">
+          <p className="font-display text-[11px] uppercase tracking-wide text-muted-foreground">
+            Потребность
+          </p>
+          <p className="mt-1 font-medium">{needTitle}</p>
+          <input type="hidden" name="need_id" value={needId ?? ""} readOnly />
+          <input type="hidden" name="need_title" value={needTitle} readOnly />
+        </div>
+      ) : null}
       <div className="grid gap-2">
         <Label htmlFor="name">Имя</Label>
         <Input
@@ -81,18 +115,22 @@ export function HelpRequestForm({ defaultWay }: { defaultWay?: string }) {
       </div>
       <div className="grid gap-2">
         <Label htmlFor="way">Способ помощи</Label>
-        <Select value={way} onValueChange={setWay}>
-          <SelectTrigger id="way">
-            <SelectValue placeholder="Выберите вариант" />
-          </SelectTrigger>
-          <SelectContent>
-            {HELP_WAYS.map((w) => (
-              <SelectItem key={w} value={w}>
-                {w}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        {lockWay ? (
+          <Input id="way" value={way} readOnly className="bg-muted/50" />
+        ) : (
+          <Select value={way} onValueChange={setWay}>
+            <SelectTrigger id="way">
+              <SelectValue placeholder="Выберите вариант" />
+            </SelectTrigger>
+            <SelectContent>
+              {HELP_WAYS.map((w) => (
+                <SelectItem key={w} value={w}>
+                  {w}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        )}
       </div>
       <div className="grid gap-2">
         <Label htmlFor="comment">Комментарий</Label>

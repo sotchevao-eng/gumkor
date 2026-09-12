@@ -103,12 +103,16 @@ export function NeedCard({ need }: { need: Need }) {
                   </Button>
                 }
                 defaultWay="Финансово"
+                needId={need.id}
+                needTitle={need.title}
               />
             </div>
           ) : (
             <HelpRequestDialog
               trigger={<Button className="w-full">Могу помочь</Button>}
               defaultWay="Вещами и материалами"
+              needId={need.id}
+              needTitle={need.title}
             />
           )}
         </div>
