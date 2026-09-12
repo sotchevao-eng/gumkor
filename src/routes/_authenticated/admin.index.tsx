@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
+import { useCanSeePersonalData } from "@/lib/staff-context";
 
 export const Route = createFileRoute("/_authenticated/admin/")({
   component: AdminDashboard,
@@ -28,9 +29,19 @@ function StatCard({ label, value }: { label: string; value: number | undefined }
 }
 
 function AdminDashboard() {
+  const canSeePersonalData = useCanSeePersonalData();
   const stats = useQuery({
-    queryKey: ["admin", "dashboard"],
+    queryKey: ["admin", "dashboard", canSeePersonalData ? "admin" : "tester"],
     queryFn: async () => {
+      if (!canSeePersonalData) {
+        const [active, partial, closed, published] = await Promise.all([
+          countRows("needs", { column: "status", value: "active" }),
+          countRows("needs", { column: "status", value: "partial" }),
+          countRows("needs", { column: "status", value: "closed" }),
+          countRows("reports", { column: "status", value: "published" }),
+        ]);
+        return { active, partial, closed, newRequests: 0, unprocessed: 0, published };
+      }
       const [active, partial, closed, newRequests, openRequests, published] = await Promise.all([
         countRows("needs", { column: "status", value: "active" }),
         countRows("needs", { column: "status", value: "partial" }),
