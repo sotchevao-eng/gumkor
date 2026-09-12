@@ -1,15 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import {
-  ClipboardList,
-  FileCheck2,
-  HandHeart,
-  PackageCheck,
-  Send,
-  ShieldCheck,
-  Sparkles,
-  Truck,
-} from "lucide-react";
-import heroAsset from "@/assets/hero-humanitarian.png.asset.json";
+import { ClipboardList, HandHeart, Send, ShieldCheck, Sparkles } from "lucide-react";
+import heroAsset from "@/assets/hero-humanitarian-2.png.asset.json";
 import { Button } from "@/components/ui/button";
 import { HelpRequestDialog } from "@/components/help-request-dialog";
 
