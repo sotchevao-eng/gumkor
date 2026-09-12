@@ -75,7 +75,7 @@ function AuthPage() {
       <PageHero
         eyebrow="Служебный раздел"
         title="Вход координатора"
-        description="Доступ к управлению потребностями. Обычным посетителям сайта вход не нужен."
+        description="Вход в админ-панель: потребности, заявки, отчёты, категории и настройки сайта. Обычным посетителям сайта вход не нужен."
       />
       <section className="mx-auto w-full max-w-md px-4 py-12">
         <form onSubmit={submit} className="card-elevated grid gap-4 p-6" noValidate>

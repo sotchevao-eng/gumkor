@@ -1,6 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { FileText, Image as ImageIcon } from "lucide-react";
 import { PageHero } from "@/components/page-hero";
+import { listPublishedReports, type PublicReport } from "@/lib/reports.functions";
+import { formatDate } from "@/lib/needs-types";
+
+const reportsQueryOptions = queryOptions({
+  queryKey: ["reports", "public"],
+  queryFn: () => listPublishedReports(),
+});
 
 export const Route = createFileRoute("/reports")({
   head: () => ({
@@ -18,37 +26,38 @@ export const Route = createFileRoute("/reports")({
       },
     ],
   }),
+  loader: ({ context }) => context.queryClient.ensureQueryData(reportsQueryOptions),
   component: ReportsPage,
+  errorComponent: () => (
+    <section className="mx-auto max-w-3xl px-4 py-16 text-center">
+      <h1 className="text-2xl">Отчёты не загрузились</h1>
+      <p className="mt-2 text-sm text-muted-foreground">
+        Обновите страницу или свяжитесь с координатором по телефону +7 953 733-10-20.
+      </p>
+    </section>
+  ),
 });
 
-export type Report = {
-  id: string;
-  date: string;
-  title: string;
-  description: string;
-  photos: string[];
-  documents: { name: string; url: string }[];
-  closedNeed: string;
-};
-
-// Отчёты публикует координатор. Выдуманные отчёты, чеки и суммы не добавляем.
-const reports: Report[] = [];
-
-function ReportCard({ report }: { report: Report }) {
+function ReportCard({ report }: { report: PublicReport }) {
   return (
     <article className="card-elevated p-5">
       <div className="flex flex-wrap items-baseline justify-between gap-2">
         <h3 className="text-lg">{report.title}</h3>
-        <time className="font-display text-sm text-muted-foreground">{report.date}</time>
+        <time className="font-display text-sm text-muted-foreground">
+          {formatDate(report.reportDate)}
+        </time>
       </div>
-      <p className="mt-2 text-sm text-muted-foreground">{report.description}</p>
-      <p className="mt-3 inline-block rounded-sm bg-success px-2 py-1 font-display text-[11px] uppercase text-success-foreground">
-        Закрыто: {report.closedNeed}
-      </p>
+      {report.body ? <p className="mt-2 text-sm text-muted-foreground">{report.body}</p> : null}
+      {report.summary ? <p className="mt-2 text-sm font-medium">{report.summary}</p> : null}
+      {report.needTitle ? (
+        <p className="mt-3 inline-block rounded-sm bg-success px-2 py-1 font-display text-[11px] uppercase text-success-foreground">
+          Закрыто: {report.needTitle}
+        </p>
+      ) : null}
 
-      {report.photos.length > 0 && (
+      {report.photoUrls.length > 0 && (
         <div className="mt-4 grid grid-cols-3 gap-2">
-          {report.photos.map((src) => (
+          {report.photoUrls.map((src) => (
             <img
               key={src}
               src={src}
@@ -66,6 +75,8 @@ function ReportCard({ report }: { report: Report }) {
             <li key={doc.url}>
               <a
                 href={doc.url}
+                target="_blank"
+                rel="noreferrer"
                 className="inline-flex items-center gap-2 text-sm text-accent hover:underline"
               >
                 <FileText className="size-4" />
@@ -80,6 +91,8 @@ function ReportCard({ report }: { report: Report }) {
 }
 
 function ReportsPage() {
+  const { data: reports } = useSuspenseQuery(reportsQueryOptions);
+
   return (
     <>
       <PageHero
