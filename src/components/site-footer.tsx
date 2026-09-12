@@ -3,10 +3,9 @@ import { Link } from "@tanstack/react-router";
 export function SiteFooter() {
   return (
     <footer className="surface-navy mt-16">
-      <div className="ribbon-guard h-1 w-full opacity-90" />
-      <div className="mx-auto grid max-w-6xl gap-6 px-4 py-10 sm:grid-cols-2">
+      <div className="mx-auto grid max-w-6xl gap-6 px-4 py-9 sm:grid-cols-2">
         <div>
-          <p className="brand-title text-lg leading-tight">
+          <p className="brand-title text-xl leading-tight sm:text-2xl">
             <span className="text-navy-foreground">Ря</span>
             <span className="brand-z">Z</span>
             <span className="text-navy-foreground">ань </span>
@@ -49,7 +48,7 @@ export function SiteFooter() {
               href="https://oxanaprojects.ru/"
               target="_blank"
               rel="noreferrer"
-              className="font-semibold text-navy-foreground underline decoration-sky/60 hover:decoration-navy-foreground"
+              className="font-semibold text-sky transition-colors hover:text-navy-foreground hover:underline"
             >
               OXANA PROJECTS
             </a>
