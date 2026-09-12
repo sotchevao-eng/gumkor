@@ -160,8 +160,13 @@ function AdminNeeds() {
         collected_amount: form.goalType === "descriptive" ? 0 : Number(form.collectedAmount || 0),
         unit: form.goalType === "descriptive" ? null : form.unit.trim() || null,
         report_url: form.reportUrl.trim() || null,
+        pay_phone: form.goalType === "money" ? form.payPhone.trim() || null : null,
+        pay_bank: form.goalType === "money" ? form.payBank.trim() || null : null,
+        pay_recipient: form.goalType === "money" ? form.payRecipient.trim() || null : null,
+        pay_purpose: form.goalType === "money" ? form.payPurpose.trim() || null : null,
         ...(photoPath !== undefined ? { photo_url: photoPath } : {}),
       };
+
 
       if (editingId) {
         const { error } = await supabase.from("needs").update(payload).eq("id", editingId);
@@ -239,6 +244,10 @@ function AdminNeeds() {
       collectedAmount: String(need.collected_amount ?? 0),
       unit: need.unit ?? "",
       reportUrl: need.report_url ?? "",
+      payPhone: need.pay_phone ?? "",
+      payBank: need.pay_bank ?? "",
+      payRecipient: need.pay_recipient ?? "",
+      payPurpose: need.pay_purpose ?? "",
     });
     setPhotoFile(null);
     setPhotoPreview(null);
