@@ -13,6 +13,8 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as ContactsRouteImport } from './routes/contacts'
 import { Route as HelpRouteImport } from './routes/help'
 import { Route as NeedsRouteImport } from './routes/needs'
+import { Route as PersonalDataConsentRouteImport } from './routes/personal-data-consent'
+import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as ReportsRouteImport } from './routes/reports'
 
 const IndexRoute = IndexRouteImport.update({
@@ -35,6 +37,16 @@ const NeedsRoute = NeedsRouteImport.update({
   path: '/needs',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PersonalDataConsentRoute = PersonalDataConsentRouteImport.update({
+  id: '/personal-data-consent',
+  path: '/personal-data-consent',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ReportsRoute = ReportsRouteImport.update({
   id: '/reports',
   path: '/reports',
@@ -46,6 +58,8 @@ export interface FileRoutesByFullPath {
   '/contacts': typeof ContactsRoute
   '/help': typeof HelpRoute
   '/needs': typeof NeedsRoute
+  '/personal-data-consent': typeof PersonalDataConsentRoute
+  '/privacy': typeof PrivacyRoute
   '/reports': typeof ReportsRoute
 }
 export interface FileRoutesByTo {
@@ -53,6 +67,8 @@ export interface FileRoutesByTo {
   '/contacts': typeof ContactsRoute
   '/help': typeof HelpRoute
   '/needs': typeof NeedsRoute
+  '/personal-data-consent': typeof PersonalDataConsentRoute
+  '/privacy': typeof PrivacyRoute
   '/reports': typeof ReportsRoute
 }
 export interface FileRoutesById {
@@ -61,14 +77,38 @@ export interface FileRoutesById {
   '/contacts': typeof ContactsRoute
   '/help': typeof HelpRoute
   '/needs': typeof NeedsRoute
+  '/personal-data-consent': typeof PersonalDataConsentRoute
+  '/privacy': typeof PrivacyRoute
   '/reports': typeof ReportsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/contacts' | '/help' | '/needs' | '/reports'
+  fullPaths:
+    | '/'
+    | '/contacts'
+    | '/help'
+    | '/needs'
+    | '/personal-data-consent'
+    | '/privacy'
+    | '/reports'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/contacts' | '/help' | '/needs' | '/reports'
-  id: '__root__' | '/' | '/contacts' | '/help' | '/needs' | '/reports'
+  to:
+    | '/'
+    | '/contacts'
+    | '/help'
+    | '/needs'
+    | '/personal-data-consent'
+    | '/privacy'
+    | '/reports'
+  id:
+    | '__root__'
+    | '/'
+    | '/contacts'
+    | '/help'
+    | '/needs'
+    | '/personal-data-consent'
+    | '/privacy'
+    | '/reports'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -76,6 +116,8 @@ export interface RootRouteChildren {
   ContactsRoute: typeof ContactsRoute
   HelpRoute: typeof HelpRoute
   NeedsRoute: typeof NeedsRoute
+  PersonalDataConsentRoute: typeof PersonalDataConsentRoute
+  PrivacyRoute: typeof PrivacyRoute
   ReportsRoute: typeof ReportsRoute
 }
 
@@ -109,6 +151,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof NeedsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/personal-data-consent': {
+      id: '/personal-data-consent'
+      path: '/personal-data-consent'
+      fullPath: '/personal-data-consent'
+      preLoaderRoute: typeof PersonalDataConsentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/reports': {
       id: '/reports'
       path: '/reports'
@@ -124,6 +180,8 @@ const rootRouteChildren: RootRouteChildren = {
   ContactsRoute: ContactsRoute,
   HelpRoute: HelpRoute,
   NeedsRoute: NeedsRoute,
+  PersonalDataConsentRoute: PersonalDataConsentRoute,
+  PrivacyRoute: PrivacyRoute,
   ReportsRoute: ReportsRoute,
 }
 export const routeTree = rootRouteImport

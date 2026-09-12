@@ -79,8 +79,9 @@ function ConsentPage() {
   return (
     <>
       <PageHero
+        eyebrow="Документы"
         title="Согласие на обработку персональных данных"
-        subtitle="Условия, на которые вы даёте согласие при отправке формы «Могу помочь»"
+        description="Условия, на которые вы даёте согласие при отправке формы «Могу помочь»"
       />
       <section className="mx-auto max-w-3xl px-4 py-10">
         <p className="text-muted-foreground">

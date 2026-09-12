@@ -128,8 +128,9 @@ function PrivacyPage() {
   return (
     <>
       <PageHero
+        eyebrow="Документы"
         title="Политика в отношении обработки персональных данных"
-        subtitle="Как мы собираем, используем и защищаем ваши данные в соответствии с 152-ФЗ"
+        description="Как мы собираем, используем и защищаем ваши данные в соответствии с 152-ФЗ"
       />
       <section className="mx-auto max-w-3xl px-4 py-10">
         <div className="grid gap-7">
