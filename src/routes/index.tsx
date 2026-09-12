@@ -1,15 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import {
-  ClipboardList,
-  FileCheck2,
-  HandHeart,
-  PackageCheck,
-  Send,
-  ShieldCheck,
-  Sparkles,
-  Truck,
-} from "lucide-react";
-import heroAsset from "@/assets/hero-humanitarian.png.asset.json";
+import { ClipboardList, HandHeart, Send, ShieldCheck, Sparkles } from "lucide-react";
+import heroAsset from "@/assets/hero-humanitarian-2.png.asset.json";
 import { Button } from "@/components/ui/button";
 import { HelpRequestDialog } from "@/components/help-request-dialog";
 
@@ -36,59 +27,12 @@ export const Route = createFileRoute("/")({
 function Index() {
   return (
     <>
-      <section className="relative isolate overflow-hidden">
-        <div
-          role="img"
-          aria-label="Военнослужащий принимает коробку с гуманитарной помощью, рядом грузовик, медицинские укладки и флаг ВДВ, на фоне панорама Рязани и парашюты"
-          className="hero-photo absolute inset-0 bg-cover bg-no-repeat bg-[position:88%_center] sm:bg-[size:auto_200%] sm:bg-[position:right_center]"
-          style={{ backgroundImage: `url(${heroAsset.url})` }}
+      <section className="relative isolate">
+        <img
+          src={heroAsset.url}
+          alt="Военнослужащий, коробки гуманитарной помощи, грузовик «РяZань ZA ВДВ», парашюты и панорама Рязани с надписью «Своих не бросаем»"
+          className="h-[42vw] max-h-[520px] min-h-[220px] w-full object-cover object-[60%_center] sm:object-center"
         />
-        <div className="absolute inset-0 bg-navy/25" aria-hidden />
-        <div
-          className="absolute inset-0 bg-gradient-to-r from-navy from-[26%] via-navy/50 via-[58%] to-navy/10 sm:to-transparent"
-          aria-hidden
-        />
-        <div className="relative mx-auto max-w-6xl px-4 py-20 text-navy-foreground sm:py-28">
-          <p className="eyebrow !text-navy-foreground drop-shadow-md">
-            Волонтёрская группа · Рязань
-          </p>
-          <h1 className="mt-4 max-w-3xl text-5xl leading-[1.02] uppercase drop-shadow-lg sm:text-7xl">
-            Своих не бросаем
-          </h1>
-          <p className="mt-5 max-w-xl text-lg text-navy-foreground drop-shadow sm:text-xl">
-            Актуальные потребности, понятный способ помочь и прозрачная отчётность — в одном месте
-          </p>
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <Button asChild size="lg" variant="secondary">
-              <Link to="/needs">Смотреть потребности</Link>
-            </Button>
-            <HelpRequestDialog
-              trigger={
-                <Button
-                  size="lg"
-                  className="bg-accent text-accent-foreground hover:bg-accent/90"
-                >
-                  Помочь сейчас
-                </Button>
-              }
-            />
-          </div>
-          <ul className="mt-10 grid max-w-2xl gap-3 sm:grid-cols-3">
-            {[
-              { icon: PackageCheck, label: "Собираем" },
-              { icon: Truck, label: "Передаём" },
-              { icon: FileCheck2, label: "Отчитываемся" },
-            ].map((item) => (
-              <li
-                key={item.label}
-                className="flex items-center gap-2 rounded-xl border border-navy-foreground/25 bg-navy/45 px-3 py-2 backdrop-blur-sm"
-              >
-                <item.icon className="size-5 text-sky" />
-                <span className="font-display text-sm uppercase tracking-wider">{item.label}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
         <div className="ribbon-guard absolute bottom-0 h-1.5 w-full opacity-95" />
       </section>
 
