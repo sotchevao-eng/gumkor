@@ -9,7 +9,7 @@ import {
   Sparkles,
   Truck,
 } from "lucide-react";
-import heroImage from "@/assets/hero-aid.jpg";
+import heroAsset from "@/assets/hero-humanitarian.png.asset.json";
 import { Button } from "@/components/ui/button";
 import { HelpRequestDialog } from "@/components/help-request-dialog";
 
@@ -37,16 +37,15 @@ function Index() {
   return (
     <>
       <section className="relative isolate overflow-hidden">
-        <img
-          src={heroImage}
-          alt="Волонтёры готовят коробки с гуманитарной помощью и медикаментами, на фоне панорама Рязани и парашюты"
-          width={1920}
-          height={1088}
-          className="hero-photo absolute inset-0 size-full object-cover"
-        />
         <div
-          className="absolute inset-0"
-          style={{ backgroundImage: "var(--gradient-hero-veil)" }}
+          role="img"
+          aria-label="Военнослужащий принимает коробку с гуманитарной помощью, рядом грузовик, медицинские укладки и флаг ВДВ, на фоне панорама Рязани и парашюты"
+          className="hero-photo absolute inset-0 bg-cover bg-no-repeat bg-[position:88%_center] sm:bg-[size:auto_200%] sm:bg-[position:right_center]"
+          style={{ backgroundImage: `url(${heroAsset.url})` }}
+        />
+        <div className="absolute inset-0 bg-navy/25" aria-hidden />
+        <div
+          className="absolute inset-0 bg-gradient-to-r from-navy from-[26%] via-navy/50 via-[58%] to-navy/10 sm:to-transparent"
           aria-hidden
         />
         <div className="relative mx-auto max-w-6xl px-4 py-20 text-navy-foreground sm:py-28">
