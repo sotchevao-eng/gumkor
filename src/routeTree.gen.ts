@@ -20,6 +20,7 @@ import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as ReportsRouteImport } from './routes/reports'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
+import { Route as AuthenticatedAdminAccessRouteImport } from './routes/_authenticated/admin.access'
 import { Route as AuthenticatedAdminCategoriesRouteImport } from './routes/_authenticated/admin.categories'
 import { Route as AuthenticatedAdminNeedsRouteImport } from './routes/_authenticated/admin.needs'
 import { Route as AuthenticatedAdminReportsRouteImport } from './routes/_authenticated/admin.reports'
@@ -80,6 +81,12 @@ const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthenticatedAdminRoute,
 } as any)
+const AuthenticatedAdminAccessRoute =
+  AuthenticatedAdminAccessRouteImport.update({
+    id: '/access',
+    path: '/access',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAdminCategoriesRoute =
   AuthenticatedAdminCategoriesRouteImport.update({
     id: '/categories',
@@ -120,6 +127,7 @@ export interface FileRoutesByFullPath {
   '/privacy': typeof PrivacyRoute
   '/reports': typeof ReportsRoute
   '/admin': typeof AuthenticatedAdminRouteWithChildren
+  '/admin/access': typeof AuthenticatedAdminAccessRoute
   '/admin/categories': typeof AuthenticatedAdminCategoriesRoute
   '/admin/needs': typeof AuthenticatedAdminNeedsRoute
   '/admin/reports': typeof AuthenticatedAdminReportsRoute
@@ -136,6 +144,7 @@ export interface FileRoutesByTo {
   '/personal-data-consent': typeof PersonalDataConsentRoute
   '/privacy': typeof PrivacyRoute
   '/reports': typeof ReportsRoute
+  '/admin/access': typeof AuthenticatedAdminAccessRoute
   '/admin/categories': typeof AuthenticatedAdminCategoriesRoute
   '/admin/needs': typeof AuthenticatedAdminNeedsRoute
   '/admin/reports': typeof AuthenticatedAdminReportsRoute
@@ -155,6 +164,7 @@ export interface FileRoutesById {
   '/privacy': typeof PrivacyRoute
   '/reports': typeof ReportsRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
+  '/_authenticated/admin/access': typeof AuthenticatedAdminAccessRoute
   '/_authenticated/admin/categories': typeof AuthenticatedAdminCategoriesRoute
   '/_authenticated/admin/needs': typeof AuthenticatedAdminNeedsRoute
   '/_authenticated/admin/reports': typeof AuthenticatedAdminReportsRoute
@@ -174,6 +184,7 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/reports'
     | '/admin'
+    | '/admin/access'
     | '/admin/categories'
     | '/admin/needs'
     | '/admin/reports'
@@ -190,6 +201,7 @@ export interface FileRouteTypes {
     | '/personal-data-consent'
     | '/privacy'
     | '/reports'
+    | '/admin/access'
     | '/admin/categories'
     | '/admin/needs'
     | '/admin/reports'
@@ -208,6 +220,7 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/reports'
     | '/_authenticated/admin'
+    | '/_authenticated/admin/access'
     | '/_authenticated/admin/categories'
     | '/_authenticated/admin/needs'
     | '/_authenticated/admin/reports'
@@ -307,6 +320,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/access': {
+      id: '/_authenticated/admin/access'
+      path: '/access'
+      fullPath: '/admin/access'
+      preLoaderRoute: typeof AuthenticatedAdminAccessRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/categories': {
       id: '/_authenticated/admin/categories'
       path: '/categories'
@@ -346,6 +366,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedAdminRouteChildren {
+  AuthenticatedAdminAccessRoute: typeof AuthenticatedAdminAccessRoute
   AuthenticatedAdminCategoriesRoute: typeof AuthenticatedAdminCategoriesRoute
   AuthenticatedAdminNeedsRoute: typeof AuthenticatedAdminNeedsRoute
   AuthenticatedAdminReportsRoute: typeof AuthenticatedAdminReportsRoute
@@ -355,6 +376,7 @@ interface AuthenticatedAdminRouteChildren {
 }
 
 const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
+  AuthenticatedAdminAccessRoute: AuthenticatedAdminAccessRoute,
   AuthenticatedAdminCategoriesRoute: AuthenticatedAdminCategoriesRoute,
   AuthenticatedAdminNeedsRoute: AuthenticatedAdminNeedsRoute,
   AuthenticatedAdminReportsRoute: AuthenticatedAdminReportsRoute,
