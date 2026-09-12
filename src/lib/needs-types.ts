@@ -18,6 +18,7 @@ export type Need = {
   photoPath: string | null;
   photoUrl: string | null;
   reportUrl: string | null;
+  reportId: string | null;
   isDemo: boolean;
   payPhone: string | null;
   payBank: string | null;

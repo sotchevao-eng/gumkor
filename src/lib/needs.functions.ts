@@ -46,6 +46,25 @@ export const listNeeds = createServerFn({ method: "GET" }).handler(
     const categoryNames = new Map(categories.map((c) => [c.id, c.name]));
 
     const rows = needsResult.data ?? [];
+
+    // Опубликованные отчёты по потребностям — для кнопки «Смотреть отчёт»
+    const reportByNeed = new Map<string, string>();
+    if (rows.length > 0) {
+      const { data: reportRows } = await supabase
+        .from("reports")
+        .select("id, need_id, report_date")
+        .eq("status", "published")
+        .in(
+          "need_id",
+          rows.map((row) => row.id),
+        )
+        .order("report_date", { ascending: false });
+      for (const report of reportRows ?? []) {
+        if (report.need_id && !reportByNeed.has(report.need_id)) {
+          reportByNeed.set(report.need_id, report.id);
+        }
+      }
+    }
     const photoPaths = rows.map((row) => row.photo_url).filter((p): p is string => Boolean(p));
     const signed = new Map<string, string>();
     if (photoPaths.length > 0) {
