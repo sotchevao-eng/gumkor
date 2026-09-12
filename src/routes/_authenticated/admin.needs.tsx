@@ -330,10 +330,10 @@ function AdminNeeds() {
 
   const changeStatus = useMutation({
     mutationFn: async ({ need, status }: { need: NeedRecord; status: NeedStatus }) => {
-      const update: Record<string, unknown> = { status };
-      if (status === "closed" && need.required_amount) {
-        update["collected_amount"] = need.required_amount;
-      }
+      const update =
+        status === "closed" && need.required_amount
+          ? { status, collected_amount: need.required_amount }
+          : { status };
       const { error } = await supabase.from("needs").update(update).eq("id", need.id);
       if (error) throw new Error(error.message);
       await logHistory(need.id, [
