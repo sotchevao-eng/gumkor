@@ -2,7 +2,7 @@ import { Link } from "@tanstack/react-router";
 
 export function SiteFooter() {
   return (
-    <footer className="surface-navy mt-10">
+    <footer className="surface-navy mt-0">
       <div className="mx-auto grid max-w-6xl gap-6 px-4 py-9 sm:grid-cols-2">
         <div>
           <p className="brand-title text-xl leading-tight sm:text-2xl">
