@@ -33,6 +33,12 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
   GOAL_TYPE_LABELS,
   PRIORITY_META,
   STATUS_META,
@@ -132,6 +138,16 @@ function progressPercent(need: NeedRecord) {
   if (need.status === "closed") return 100;
   if (!need.required_amount || need.required_amount <= 0) return null;
   return Math.min(100, Math.round((Number(need.collected_amount ?? 0) / need.required_amount) * 100));
+}
+
+function shortDate(value: string) {
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return value;
+  return date.toLocaleDateString("ru-RU", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  });
 }
 
 function AdminNeeds() {
@@ -468,24 +484,76 @@ function AdminNeeds() {
     return formatAmount(left, unitLabel(need));
   }
 
-  function Actions({ need }: { need: NeedRecord }) {
+  function Actions({ need, compact = false }: { need: NeedRecord; compact?: boolean }) {
+    const editButton = (
+      <Button
+        size="sm"
+        variant="outline"
+        className={compact ? "h-7 px-2 text-xs" : undefined}
+        onClick={() => openEdit(need)}
+      >
+        Редактировать
+      </Button>
+    );
+    const progressButton =
+      need.goal_type !== "descriptive" ? (
+        <Button
+          size="sm"
+          variant="outline"
+          className={compact ? "h-7 px-2 text-xs" : undefined}
+          onClick={() => {
+            setProgressTarget(need);
+            setProgressValue(String(need.collected_amount ?? 0));
+          }}
+        >
+          {compact ? "Собрано" : "Обновить собрано"}
+        </Button>
+      ) : null;
+
+    if (compact) {
+      return (
+        <div className="flex flex-wrap items-center gap-1">
+          {editButton}
+          {progressButton}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                size="sm"
+                variant="ghost"
+                className="h-7 w-7 p-0 text-base leading-none"
+                aria-label="Другие действия"
+              >
+                ⋯
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="min-w-44">
+              {need.status === "draft" ? (
+                <DropdownMenuItem onSelect={() => changeStatus.mutate({ need, status: "active" })}>
+                  Опубликовать
+                </DropdownMenuItem>
+              ) : null}
+              {need.status !== "closed" ? (
+                <DropdownMenuItem onSelect={() => setCloseTarget(need)}>Закрыть</DropdownMenuItem>
+              ) : (
+                <DropdownMenuItem onSelect={() => changeStatus.mutate({ need, status: "active" })}>
+                  Вернуть в активные
+                </DropdownMenuItem>
+              )}
+              <DropdownMenuItem onSelect={() => createReport(need)}>
+                {need.status === "closed" ? "Создать / открыть отчёт" : "Создать отчёт"}
+              </DropdownMenuItem>
+              <DropdownMenuItem onSelect={() => setHistoryTarget(need)}>История</DropdownMenuItem>
+              <DropdownMenuItem onSelect={() => setDeleteTarget(need)}>Удалить</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+      );
+    }
+
     return (
       <div className="flex flex-wrap gap-2">
-        <Button size="sm" variant="outline" onClick={() => openEdit(need)}>
-          Редактировать
-        </Button>
-        {need.goal_type !== "descriptive" ? (
-          <Button
-            size="sm"
-            variant="outline"
-            onClick={() => {
-              setProgressTarget(need);
-              setProgressValue(String(need.collected_amount ?? 0));
-            }}
-          >
-            Обновить собрано
-          </Button>
-        ) : null}
+        {editButton}
+        {progressButton}
         {need.status === "draft" ? (
           <Button size="sm" onClick={() => changeStatus.mutate({ need, status: "active" })}>
             Опубликовать
@@ -539,14 +607,14 @@ function AdminNeeds() {
       </div>
 
       {/* Фильтры, поиск, сортировка */}
-      <div className="card-elevated grid gap-3 p-4">
-        <div className="flex flex-wrap gap-2">
+      <div className="card-elevated grid gap-2 p-3">
+        <div className="flex flex-wrap gap-1.5">
           {STATUS_FILTERS.map((filter) => (
             <button
               key={filter.key}
               type="button"
               onClick={() => setStatusFilter(filter.key)}
-              className={`rounded-md border px-3 py-1.5 text-xs transition-colors ${
+              className={`rounded-md border px-2.5 py-1 text-xs transition-colors ${
                 statusFilter === filter.key
                   ? "border-navy bg-navy text-navy-foreground"
                   : "border-border bg-card text-foreground hover:border-sky"
@@ -556,8 +624,8 @@ function AdminNeeds() {
             </button>
           ))}
         </div>
-        <div className="grid gap-3 sm:grid-cols-3">
-          <div className="grid gap-1.5">
+        <div className="grid gap-2 sm:grid-cols-3">
+          <div className="grid gap-1">
             <Label htmlFor="search">Поиск по названию</Label>
             <Input
               id="search"
@@ -607,77 +675,104 @@ function AdminNeeds() {
       ) : (
         <>
           {/* Таблица для компьютера */}
-          <div className="card-elevated hidden overflow-x-auto p-2 lg:block">
-            <table className="w-full text-sm">
+          <div className="card-elevated hidden overflow-x-auto p-1 lg:block">
+            <table className="w-full table-fixed text-[13px] leading-tight">
+              <colgroup>
+                <col className="w-[22%]" />
+                <col className="w-[10%]" />
+                <col className="w-[8%]" />
+                <col className="w-[9%]" />
+                <col className="w-[7%]" />
+                <col className="w-[9%]" />
+                <col className="w-[9%]" />
+                <col className="w-[9%]" />
+                <col className="w-[8%]" />
+                <col className="w-[7%]" />
+                <col className="w-[10%]" />
+              </colgroup>
               <thead>
-                <tr className="text-left text-xs uppercase text-muted-foreground">
-                  <th className="p-3">Название</th>
-                  <th className="p-3">Категория</th>
-                  <th className="p-3">Тип</th>
-                  <th className="p-3">Статус</th>
-                  <th className="p-3">Приоритет</th>
-                  <th className="p-3">Требуется</th>
-                  <th className="p-3">Собрано</th>
-                  <th className="p-3">Осталось</th>
-                  <th className="p-3">Прогресс</th>
-                  <th className="p-3">Дата</th>
-                  <th className="p-3">Действия</th>
+                <tr className="text-left text-[10px] uppercase text-muted-foreground">
+                  <th className="px-2 py-1.5">Название</th>
+                  <th className="px-2 py-1.5">Категория</th>
+                  <th className="px-2 py-1.5">Тип</th>
+                  <th className="px-2 py-1.5">Статус</th>
+                  <th className="px-2 py-1.5">Приор.</th>
+                  <th className="px-2 py-1.5 text-right">Требуется</th>
+                  <th className="px-2 py-1.5 text-right">Собрано</th>
+                  <th className="px-2 py-1.5 text-right">Осталось</th>
+                  <th className="px-2 py-1.5">Прогресс</th>
+                  <th className="px-2 py-1.5">Дата</th>
+                  <th className="px-2 py-1.5">Действия</th>
                 </tr>
               </thead>
               <tbody>
                 {visibleNeeds.map((need) => {
                   const percent = progressPercent(need);
                   return (
-                    <tr key={need.id} className="border-t border-border/70 align-top">
-                      <td className="p-3 font-medium">
-                        {need.title}
+                    <tr key={need.id} className="border-t border-border/70 align-middle">
+                      <td className="px-2 py-1.5 font-medium">
+                        <span className="line-clamp-2 break-words">{need.title}</span>
                         {need.is_demo ? (
-                          <span className="ml-2 rounded-sm bg-warning px-1.5 py-0.5 text-xs text-warning-foreground">
+                          <span className="mt-0.5 inline-block rounded-sm bg-warning px-1 text-[10px] text-warning-foreground">
                             DEMO
                           </span>
                         ) : null}
                       </td>
-                      <td className="p-3">
-                        {need.category_id ? (categoryName.get(need.category_id) ?? "—") : "—"}
+                      <td className="px-2 py-1.5 text-muted-foreground">
+                        <span className="line-clamp-2">
+                          {need.category_id ? (categoryName.get(need.category_id) ?? "—") : "—"}
+                        </span>
                       </td>
-                      <td className="p-3">{GOAL_TYPE_LABELS[need.goal_type]}</td>
-                      <td className="p-3">
+                      <td className="px-2 py-1.5 text-muted-foreground">
+                        {GOAL_TYPE_LABELS[need.goal_type]}
+                      </td>
+                      <td className="px-2 py-1.5">
                         <span
-                          className={`rounded-sm px-2 py-1 text-xs ${STATUS_META[need.status].className}`}
+                          className={`inline-block whitespace-nowrap rounded-sm px-1.5 py-0.5 text-[11px] ${STATUS_META[need.status].className}`}
                         >
                           {STATUS_META[need.status].label}
                         </span>
                       </td>
-                      <td className="p-3">{PRIORITY_META[need.priority].label}</td>
-                      <td className="p-3">
+                      <td className="px-2 py-1.5">
+                        <span
+                          className={`whitespace-nowrap text-[11px] ${PRIORITY_META[need.priority].className}`}
+                        >
+                          {PRIORITY_META[need.priority].label}
+                        </span>
+                      </td>
+                      <td className="px-2 py-1.5 text-right whitespace-nowrap tabular-nums">
                         {need.required_amount === null
                           ? "—"
                           : formatAmount(need.required_amount, unitLabel(need))}
                       </td>
-                      <td className="p-3">
+                      <td className="px-2 py-1.5 text-right whitespace-nowrap tabular-nums">
                         {need.goal_type === "descriptive"
                           ? "—"
                           : formatAmount(Number(need.collected_amount ?? 0), unitLabel(need))}
                       </td>
-                      <td className="p-3">{remaining(need)}</td>
-                      <td className="p-3">
+                      <td className="px-2 py-1.5 text-right whitespace-nowrap tabular-nums">
+                        {remaining(need)}
+                      </td>
+                      <td className="px-2 py-1.5">
                         {percent === null ? (
                           "—"
                         ) : (
-                          <span className="flex items-center gap-2">
-                            <span className="h-1.5 w-16 overflow-hidden rounded-full bg-muted">
+                          <span className="flex items-center gap-1.5 whitespace-nowrap">
+                            <span className="h-1 w-10 overflow-hidden rounded-full bg-muted">
                               <span
                                 className="block h-full rounded-full bg-sky"
                                 style={{ width: `${percent}%` }}
                               />
                             </span>
-                            {percent}%
+                            <span className="text-[11px] tabular-nums">{percent}%</span>
                           </span>
                         )}
                       </td>
-                      <td className="p-3">{formatDate(need.published_at)}</td>
-                      <td className="p-3">
-                        <Actions need={need} />
+                      <td className="px-2 py-1.5 whitespace-nowrap text-muted-foreground tabular-nums">
+                        {shortDate(need.published_at)}
+                      </td>
+                      <td className="px-2 py-1.5">
+                        <Actions need={need} compact />
                       </td>
                     </tr>
                   );
