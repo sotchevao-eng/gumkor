@@ -21,8 +21,12 @@ export function SiteHeader() {
         <Link to="/" className="flex min-w-0 items-center gap-3" onClick={() => setOpen(false)}>
           <SiteLogo className="h-11 w-11 sm:h-14 sm:w-14" />
           <span className="min-w-0">
-            <span className="block truncate font-display text-lg leading-tight tracking-wide uppercase sm:text-xl">
-              РяZань ZA ВДВ
+            <span className="brand-title block truncate text-lg leading-tight sm:text-xl">
+              <span className="text-navy-foreground">Ря</span>
+              <span className="brand-z">Z</span>
+              <span className="text-navy-foreground">ань </span>
+              <span className="brand-za">ZA</span>
+              <span className="text-navy-foreground"> ВДВ</span>
             </span>
             <span className="block truncate text-xs text-navy-foreground/70">
               Помощь 2 батальону 137 гв. ПДП

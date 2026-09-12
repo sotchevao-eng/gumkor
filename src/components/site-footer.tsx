@@ -35,6 +35,22 @@ export function SiteFooter() {
           </p>
         </div>
       </div>
+      <div className="border-t border-navy-foreground/10">
+        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-2 px-4 py-4 text-xs text-navy-foreground/60 sm:flex-row">
+          <span>
+            Разработка сайта —{" "}
+            <span className="font-semibold text-navy-foreground">OXANA PROJECTS</span>
+          </span>
+          <a
+            href="https://oxanaprojects.ru/"
+            target="_blank"
+            rel="noreferrer"
+            className="underline decoration-sky/60 hover:text-navy-foreground"
+          >
+            Портфолио: oxanaprojects.ru
+          </a>
+        </div>
+      </div>
     </footer>
   );
 }
