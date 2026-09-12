@@ -37,17 +37,19 @@ function Index() {
   return (
     <>
       <section className="relative isolate overflow-hidden">
-        <img
-          src={heroAsset.url}
-          alt="Военнослужащий принимает коробку с гуманитарной помощью, рядом грузовик, медицинские укладки и флаг ВДВ, на фоне панорама Рязани и парашюты"
-          className="hero-photo absolute inset-0 size-full object-cover object-[72%_center] sm:object-[80%_center]"
-        />
         <div
-          className="absolute inset-0 bg-navy/30"
-          aria-hidden
+          role="img"
+          aria-label="Военнослужащий принимает коробку с гуманитарной помощью, рядом грузовик, медицинские укладки и флаг ВДВ, на фоне панорама Рязани и парашюты"
+          className="hero-photo absolute inset-0 bg-no-repeat"
+          style={{
+            backgroundImage: `url(${heroAsset.url})`,
+            backgroundSize: "auto 175%",
+            backgroundPosition: "right center",
+          }}
         />
+        <div className="absolute inset-0 bg-navy/25" aria-hidden />
         <div
-          className="absolute inset-0 bg-gradient-to-r from-navy/75 via-navy/25 to-transparent"
+          className="absolute inset-0 bg-gradient-to-r from-navy/85 via-navy/45 to-navy/10 sm:via-navy/25 sm:to-transparent"
           aria-hidden
         />
         <div className="relative mx-auto max-w-6xl px-4 py-20 text-navy-foreground sm:py-28">
