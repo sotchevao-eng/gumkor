@@ -85,6 +85,41 @@ export type Database = {
         }
         Relationships: []
       }
+      need_history: {
+        Row: {
+          changed_by: string | null
+          changed_by_email: string
+          created_at: string
+          id: string
+          need_id: string
+          summary: string
+        }
+        Insert: {
+          changed_by?: string | null
+          changed_by_email?: string
+          created_at?: string
+          id?: string
+          need_id: string
+          summary?: string
+        }
+        Update: {
+          changed_by?: string | null
+          changed_by_email?: string
+          created_at?: string
+          id?: string
+          need_id?: string
+          summary?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "need_history_need_id_fkey"
+            columns: ["need_id"]
+            isOneToOne: false
+            referencedRelation: "needs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       needs: {
         Row: {
           category_id: string | null
@@ -302,7 +337,7 @@ export type Database = {
       app_role: "admin" | "tester"
       need_goal_type: "quantity" | "money" | "descriptive"
       need_priority: "normal" | "important" | "urgent"
-      need_status: "active" | "partial" | "closed"
+      need_status: "active" | "partial" | "closed" | "draft"
       report_status: "draft" | "published"
       request_status:
         | "new"
@@ -441,7 +476,7 @@ export const Constants = {
       app_role: ["admin", "tester"],
       need_goal_type: ["quantity", "money", "descriptive"],
       need_priority: ["normal", "important", "urgent"],
-      need_status: ["active", "partial", "closed"],
+      need_status: ["active", "partial", "closed", "draft"],
       report_status: ["draft", "published"],
       request_status: [
         "new",

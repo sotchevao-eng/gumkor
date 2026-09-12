@@ -1,6 +1,6 @@
 import { supabase } from "@/integrations/supabase/client";
 
-const IMAGE_TYPES = ["image/jpeg", "image/png"];
+const IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp"];
 const DOC_TYPES = ["application/pdf"];
 const MAX_BYTES = 10 * 1024 * 1024;
 
@@ -11,7 +11,7 @@ function extensionOf(file: File) {
 
 export async function uploadImage(bucket: string, file: File) {
   if (!IMAGE_TYPES.includes(file.type)) {
-    throw new Error("Фото принимаются только в формате JPG или PNG");
+    throw new Error("Фото принимаются в формате JPG, PNG или WEBP");
   }
   return upload(bucket, file);
 }
