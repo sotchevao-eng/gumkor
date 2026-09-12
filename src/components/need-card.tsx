@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import { HelpRequestDialog } from "@/components/help-request-dialog";
 import { DonateDialog } from "@/components/donate-dialog";
 import { Button } from "@/components/ui/button";
@@ -76,12 +77,21 @@ export function NeedCard({ need }: { need: Need }) {
 
         <div className="mt-auto pt-5">
           {isClosed ? (
-            need.reportUrl ? (
+            need.reportId ? (
+              <div>
+                <p className="font-display text-xs uppercase text-success">Отчёт опубликован</p>
+                <Button asChild variant="outline" className="mt-2 w-full">
+                  <Link to="/reports/$reportId" params={{ reportId: need.reportId }}>
+                    Смотреть отчёт
+                  </Link>
+                </Button>
+              </div>
+            ) : need.reportUrl ? (
               <div>
                 <p className="font-display text-xs uppercase text-success">Отчёт опубликован</p>
                 <Button asChild variant="outline" className="mt-2 w-full">
                   <a href={need.reportUrl} target="_blank" rel="noreferrer">
-                    Открыть отчёт
+                    Смотреть отчёт
                   </a>
                 </Button>
               </div>
