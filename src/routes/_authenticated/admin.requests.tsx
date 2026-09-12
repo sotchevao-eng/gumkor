@@ -142,7 +142,7 @@ function AdminRequests() {
                     {request.name}
                     {request.is_demo ? (
                       <span className="ml-2 rounded-sm border border-border px-1.5 py-0.5 text-xs text-muted-foreground">
-                        demo
+                        DEMO
                       </span>
                     ) : null}
                   </h3>
