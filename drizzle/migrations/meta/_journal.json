@@ -36,6 +36,13 @@
       "when": 1789231264819,
       "tag": "0004_report_files_storage_policies",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1789231742587,
+      "tag": "0005_add_tester_role_value",
+      "breakpoints": true
     }
   ]
 }
