@@ -1,4 +1,5 @@
 import { HelpRequestDialog } from "@/components/help-request-dialog";
+import { DonateDialog } from "@/components/donate-dialog";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import {
@@ -15,6 +16,7 @@ export function NeedCard({ need }: { need: Need }) {
   const priority = PRIORITY_META[need.priority];
   const progress = needProgress(need);
   const isClosed = need.status === "closed";
+  const isMoney = need.goalType === "money";
 
   return (
     <article className="card-elevated flex flex-col overflow-hidden">
@@ -88,10 +90,25 @@ export function NeedCard({ need }: { need: Need }) {
                 Потребность закрыта. Отчёт готовится к публикации.
               </p>
             )
+          ) : isMoney ? (
+            <div className="grid gap-2">
+              <DonateDialog
+                need={need}
+                trigger={<Button className="w-full">Помочь сейчас</Button>}
+              />
+              <HelpRequestDialog
+                trigger={
+                  <Button variant="outline" className="w-full">
+                    Могу помочь
+                  </Button>
+                }
+                defaultWay="Финансово"
+              />
+            </div>
           ) : (
             <HelpRequestDialog
               trigger={<Button className="w-full">Могу помочь</Button>}
-              defaultWay={need.goalType === "money" ? "Финансово" : "Вещами и материалами"}
+              defaultWay="Вещами и материалами"
             />
           )}
         </div>
