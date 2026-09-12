@@ -9,7 +9,7 @@ import {
   Sparkles,
   Truck,
 } from "lucide-react";
-import heroImage from "@/assets/hero-sky.jpg";
+import heroImage from "@/assets/hero-aid.jpg";
 import { Button } from "@/components/ui/button";
 import { HelpRequestDialog } from "@/components/help-request-dialog";
 
@@ -39,7 +39,7 @@ function Index() {
       <section className="relative isolate overflow-hidden">
         <img
           src={heroImage}
-          alt="Рязань, голубое небо и десантники на парашютах"
+          alt="Волонтёры готовят коробки с гуманитарной помощью и медикаментами, на фоне панорама Рязани и парашюты"
           width={1920}
           height={1088}
           className="hero-photo absolute inset-0 size-full object-cover"
@@ -99,21 +99,21 @@ function Index() {
             {
               icon: ClipboardList,
               title: "Потребности",
-              text: "Конкретные позиции со статусом и прогрессом сбора — видно, что нужно сейчас.",
+              text: "Что нужно сейчас",
               to: "/needs" as const,
               link: "Открыть список",
             },
             {
               icon: HandHeart,
               title: "Как помочь",
-              text: "Вещами, финансово, транспортом, услугами или информационно — выберите формат.",
+              text: "Вещами, деньгами, делом",
               to: "/help" as const,
               link: "Выбрать способ",
             },
             {
               icon: ShieldCheck,
               title: "Отчётность",
-              text: "По закрытым потребностям публикуются отчёты с фотографиями и документами.",
+              text: "Что собрано и передано",
               to: "/reports" as const,
               link: "Смотреть отчёты",
             },
@@ -141,9 +141,7 @@ function Index() {
               <Send className="size-7" />
             </span>
             <h2 className="mt-4 text-xl uppercase">Могу помочь</h2>
-            <p className="mt-2 flex-1 text-sm text-accent-foreground/90">
-              Оставьте заявку — координатор свяжется с вами и подскажет, что нужно прямо сейчас.
-            </p>
+            <p className="mt-2 flex-1 text-sm text-accent-foreground/90">Оставить заявку</p>
             <HelpRequestDialog
               trigger={
                 <Button variant="secondary" className="mt-4 w-full">
