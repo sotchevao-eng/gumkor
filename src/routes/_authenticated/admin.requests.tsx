@@ -95,6 +95,19 @@ function AdminRequests() {
     (request) => filter === "all" || request.status === filter,
   );
 
+  if (!canSeePersonalData) {
+    return (
+      <div className="card-elevated p-6">
+        <h1 className="text-2xl">Заявки</h1>
+        <p className="mt-2 text-sm text-muted-foreground">
+          Заявки содержат персональные данные и доступны только координатору. Тестовому доступу
+          этот раздел закрыт.
+        </p>
+      </div>
+    );
+  }
+
+
   return (
     <div className="grid gap-6">
       <div>

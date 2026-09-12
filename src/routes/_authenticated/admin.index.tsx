@@ -66,8 +66,12 @@ function AdminDashboard() {
         <StatCard label="Активные потребности" value={data?.active} />
         <StatCard label="Частично закрытые" value={data?.partial} />
         <StatCard label="Закрытые потребности" value={data?.closed} />
-        <StatCard label="Новые заявки" value={data?.newRequests} />
-        <StatCard label="Необработанные заявки" value={data?.unprocessed} />
+        {canSeePersonalData ? (
+          <>
+            <StatCard label="Новые заявки" value={data?.newRequests} />
+            <StatCard label="Необработанные заявки" value={data?.unprocessed} />
+          </>
+        ) : null}
         <StatCard label="Опубликованные отчёты" value={data?.published} />
       </div>
 
@@ -82,9 +86,11 @@ function AdminDashboard() {
               Добавить отчёт
             </Link>
           </Button>
-          <Button asChild size="lg" variant="outline">
-            <Link to="/admin/requests">Посмотреть заявки</Link>
-          </Button>
+          {canSeePersonalData ? (
+            <Button asChild size="lg" variant="outline">
+              <Link to="/admin/requests">Посмотреть заявки</Link>
+            </Button>
+          ) : null}
           <Button asChild size="lg" variant="outline">
             <Link to="/admin/categories">Управление категориями</Link>
           </Button>
